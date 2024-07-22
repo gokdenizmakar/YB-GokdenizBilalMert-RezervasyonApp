@@ -16,7 +16,7 @@ namespace YB.Entities.Abstraction
         public int ID { get; }
         public DateTime CreatedDate { get; }
         public DateTime UpdatedDate { get; set; }
-        public virtual bool IsActive { get; set; }
+        public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
     }
 }
