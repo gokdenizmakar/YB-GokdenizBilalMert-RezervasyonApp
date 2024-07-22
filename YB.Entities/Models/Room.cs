@@ -14,5 +14,6 @@ namespace YB.Entities.Models
         public RoomType? RoomType { get; set; }
         public int TypeID { get; set; }
         public string? Status { get; set; }
+        public ICollection<Booking>? Bookings { get; set; }
     }
 }

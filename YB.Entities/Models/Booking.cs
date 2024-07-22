@@ -14,5 +14,7 @@ namespace YB.Entities.Models
         public DateOnly CheckinDate { get; set; }
         public DateOnly CheckoutDate { get; set; }
         public double TotalPrice { get; set; }
+        public ICollection<Payment>? Payments { get; set; }
+        public ICollection<Guest>? Guests { get; set; }
     }
 }

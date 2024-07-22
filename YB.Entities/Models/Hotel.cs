@@ -16,6 +16,8 @@ namespace YB.Entities.Models
         public byte Stars { get; set; }
         public TimeSpan CheckinTime { get; set; }
         public TimeSpan CheckoutTime { get; set; }
+        public ICollection<Staff>? Staffs { get; set; }
+        public ICollection<Room> Rooms { get; set; }
 
     }
 }

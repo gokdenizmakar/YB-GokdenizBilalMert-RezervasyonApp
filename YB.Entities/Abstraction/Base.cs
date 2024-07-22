@@ -11,6 +11,7 @@ namespace YB.Entities.Abstraction
         protected Base()
         {
             CreatedDate = DateTime.Now;
+            IsActive = true;
             IsDeleted = false;
         }
         public int ID { get; }

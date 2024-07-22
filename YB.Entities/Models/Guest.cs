@@ -15,6 +15,7 @@ namespace YB.Entities.Models
         public string? Address { get; set; }
         public string? Phone { get; set; }
         public string? Email { get; set; }
+        public ICollection<Booking>? Bookings { get; set; }
 
     }
 }
