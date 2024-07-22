@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace YB.Entities.Abstraction
 {
-    public abstract class Base
+    public abstract class Base:IEntity
     {
         protected Base()
         {
