@@ -18,6 +18,6 @@ namespace YB.Entities.Models
         public string? Email { get; set; }
         public DateOnly HireDate { get; set; }
         public Hotel? Hotel { get; set; }
-        public int HotelID { get; set; }
+        public Guid HotelID { get; set; }
     }
 }

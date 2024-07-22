@@ -12,8 +12,8 @@ using YB.DataAccess.Context;
 namespace YB.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240722111044_initDBCodeFirstRezervasyonDB")]
-    partial class initDBCodeFirstRezervasyonDB
+    [Migration("20240722113323_initdbcodefirst")]
+    partial class initdbcodefirst
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,11 +27,11 @@ namespace YB.DataAccess.Migrations
 
             modelBuilder.Entity("BookingGuest", b =>
                 {
-                    b.Property<int>("BookingsID")
-                        .HasColumnType("int");
+                    b.Property<Guid>("BookingsID")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("GuestsID")
-                        .HasColumnType("int");
+                    b.Property<Guid>("GuestsID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("BookingsID", "GuestsID");
 
@@ -42,11 +42,9 @@ namespace YB.DataAccess.Migrations
 
             modelBuilder.Entity("YB.Entities.Models.Booking", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateOnly>("CheckinDate")
                         .HasColumnType("date");
@@ -60,11 +58,8 @@ namespace YB.DataAccess.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("RoomID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoomNumber")
-                        .HasColumnType("int");
+                    b.Property<Guid>("RoomID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("TotalPrice")
                         .HasColumnType("float");
@@ -81,11 +76,9 @@ namespace YB.DataAccess.Migrations
 
             modelBuilder.Entity("YB.Entities.Models.Guest", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
@@ -121,11 +114,9 @@ namespace YB.DataAccess.Migrations
 
             modelBuilder.Entity("YB.Entities.Models.Hotel", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
@@ -164,17 +155,15 @@ namespace YB.DataAccess.Migrations
 
             modelBuilder.Entity("YB.Entities.Models.Payment", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
-                    b.Property<int>("BookingID")
-                        .HasColumnType("int");
+                    b.Property<Guid>("BookingID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -200,14 +189,12 @@ namespace YB.DataAccess.Migrations
 
             modelBuilder.Entity("YB.Entities.Models.Room", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<int>("HotelID")
-                        .HasColumnType("int");
+                    b.Property<Guid>("HotelID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -215,14 +202,11 @@ namespace YB.DataAccess.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("RoomTypeID")
-                        .HasColumnType("int");
+                    b.Property<Guid>("RoomTypeID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TypeID")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -238,11 +222,9 @@ namespace YB.DataAccess.Migrations
 
             modelBuilder.Entity("YB.Entities.Models.RoomType", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<byte>("Capacity")
                         .HasColumnType("tinyint");
@@ -272,11 +254,9 @@ namespace YB.DataAccess.Migrations
 
             modelBuilder.Entity("YB.Entities.Models.Staff", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateOnly>("DateOfBirth")
                         .HasColumnType("date");
@@ -290,8 +270,8 @@ namespace YB.DataAccess.Migrations
                     b.Property<DateOnly>("HireDate")
                         .HasColumnType("date");
 
-                    b.Property<int>("HotelID")
-                        .HasColumnType("int");
+                    b.Property<Guid>("HotelID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -340,7 +320,9 @@ namespace YB.DataAccess.Migrations
                 {
                     b.HasOne("YB.Entities.Models.Room", "Room")
                         .WithMany("Bookings")
-                        .HasForeignKey("RoomID");
+                        .HasForeignKey("RoomID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Room");
                 });
@@ -366,7 +348,9 @@ namespace YB.DataAccess.Migrations
 
                     b.HasOne("YB.Entities.Models.RoomType", "RoomType")
                         .WithMany("Rooms")
-                        .HasForeignKey("RoomTypeID");
+                        .HasForeignKey("RoomTypeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Hotel");
 

@@ -11,6 +11,13 @@ namespace YB.DataAccess.Context
 {
     public class ApplicationDbContext : DbContext
     {
+        public DbSet<Hotel> Hotels { get; set; }
+        public DbSet<Staff> Staffs { get; set; }
+        public DbSet<RoomType> RoomTypes { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<Guest> Guests { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //Gökdeniz dbcontext
@@ -42,12 +49,5 @@ namespace YB.DataAccess.Context
             base.OnModelCreating(modelBuilder);
         }
 
-        public DbSet<Hotel> Hotels { get; set; }
-        public DbSet<Staff> Staffs { get; set; }
-        public DbSet<RoomType> RoomTypes { get; set; }
-        public DbSet<Room> Rooms { get; set; }
-        public DbSet<Booking> Bookings { get; set; }
-        public DbSet<Payment> Payments { get; set; }
-        public DbSet<Guest> Guests { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace YB.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class initDBCodeFirstRezervasyonDB : Migration
+    public partial class initdbcodefirst : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,8 +15,7 @@ namespace YB.DataAccess.Migrations
                 name: "Guests",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateOfBirth = table.Column<DateOnly>(type: "date", nullable: false),
@@ -36,8 +35,7 @@ namespace YB.DataAccess.Migrations
                 name: "Hotels",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -58,8 +56,7 @@ namespace YB.DataAccess.Migrations
                 name: "RoomTypes",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PricePerNight = table.Column<double>(type: "float", nullable: false),
@@ -77,8 +74,7 @@ namespace YB.DataAccess.Migrations
                 name: "Staffs",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Position = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -87,7 +83,7 @@ namespace YB.DataAccess.Migrations
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HireDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    HotelID = table.Column<int>(type: "int", nullable: false),
+                    HotelID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -107,11 +103,9 @@ namespace YB.DataAccess.Migrations
                 name: "Rooms",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    HotelID = table.Column<int>(type: "int", nullable: false),
-                    RoomTypeID = table.Column<int>(type: "int", nullable: true),
-                    TypeID = table.Column<int>(type: "int", nullable: false),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    HotelID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoomTypeID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
@@ -130,17 +124,16 @@ namespace YB.DataAccess.Migrations
                         name: "FK_Rooms_RoomTypes_RoomTypeID",
                         column: x => x.RoomTypeID,
                         principalTable: "RoomTypes",
-                        principalColumn: "ID");
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Bookings",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoomID = table.Column<int>(type: "int", nullable: true),
-                    RoomNumber = table.Column<int>(type: "int", nullable: false),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoomID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CheckinDate = table.Column<DateOnly>(type: "date", nullable: false),
                     CheckoutDate = table.Column<DateOnly>(type: "date", nullable: false),
                     TotalPrice = table.Column<double>(type: "float", nullable: false),
@@ -155,15 +148,16 @@ namespace YB.DataAccess.Migrations
                         name: "FK_Bookings_Rooms_RoomID",
                         column: x => x.RoomID,
                         principalTable: "Rooms",
-                        principalColumn: "ID");
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "BookingGuest",
                 columns: table => new
                 {
-                    BookingsID = table.Column<int>(type: "int", nullable: false),
-                    GuestsID = table.Column<int>(type: "int", nullable: false)
+                    BookingsID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    GuestsID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -186,9 +180,8 @@ namespace YB.DataAccess.Migrations
                 name: "Payments",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BookingID = table.Column<int>(type: "int", nullable: false),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BookingID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Amount = table.Column<double>(type: "float", nullable: false),
                     PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PaymentMethod = table.Column<string>(type: "nvarchar(max)", nullable: true),

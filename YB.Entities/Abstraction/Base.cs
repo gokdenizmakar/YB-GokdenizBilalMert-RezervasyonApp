@@ -10,11 +10,12 @@ namespace YB.Entities.Abstraction
     {
         protected Base()
         {
+            ID= Guid.NewGuid();
             CreatedDate = DateTime.Now;
             IsActive = true;
             IsDeleted = false;
         }
-        public int ID { get; }
+        public Guid ID { get; }
         public DateTime CreatedDate { get; }
         public DateTime UpdatedDate { get; set; }
         public bool IsActive { get; set; }

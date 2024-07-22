@@ -10,9 +10,9 @@ namespace YB.Entities.Models
     public class Room : Base
     {
         public Hotel? Hotel { get; set; }
-        public int HotelID { get; set; }
+        public Guid HotelID { get; set; }
         public RoomType? RoomType { get; set; }
-        public int TypeID { get; set; }
+        public Guid RoomTypeID { get; set; }
         public string? Status { get; set; }
         public ICollection<Booking>? Bookings { get; set; }
     }
