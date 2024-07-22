@@ -11,4 +11,11 @@
     <ProjectReference Include="..\YB.Entities\YB.Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Abstractions\" />
+    <Folder Include="DependicyInjection\AutoFac\" />
+    <Folder Include="Validator\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>
