@@ -12,8 +12,8 @@ using YB.DataAccess.Context;
 namespace YB.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240722113323_initdbcodefirst")]
-    partial class initdbcodefirst
+    [Migration("20240722115024_FirstDbContext")]
+    partial class FirstDbContext
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,8 +61,8 @@ namespace YB.DataAccess.Migrations
                     b.Property<Guid>("RoomID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<double>("TotalPrice")
-                        .HasColumnType("float");
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -159,8 +159,8 @@ namespace YB.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<Guid>("BookingID")
                         .HasColumnType("uniqueidentifier");
@@ -241,8 +241,8 @@ namespace YB.DataAccess.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("PricePerNight")
-                        .HasColumnType("float");
+                    b.Property<decimal>("PricePerNight")
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -288,8 +288,8 @@ namespace YB.DataAccess.Migrations
                     b.Property<string>("Position")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Salary")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Salary")
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
