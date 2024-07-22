@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Context\" />
     <Folder Include="Abstractions\" />
     <Folder Include="Repositories\" />
   </ItemGroup>

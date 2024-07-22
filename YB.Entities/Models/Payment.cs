@@ -11,7 +11,7 @@ namespace YB.Entities.Models
     {
         public Booking? Booking { get; set; }
         public int BookingID { get; set; }
-        public double Amount { get; set; }
+        public double Amount { get; set; } 
         public DateTime PaymentDate { get; set; }
         public string? PaymentMethod { get; set; }
 
