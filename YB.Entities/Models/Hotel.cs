@@ -17,7 +17,7 @@ namespace YB.Entities.Models
         public TimeSpan CheckinTime { get; set; }
         public TimeSpan CheckoutTime { get; set; }
         public ICollection<Staff>? Staffs { get; set; }
-        public ICollection<Room> Rooms { get; set; }
+        public ICollection<Room>? Rooms { get; set; }
 
     }
 }
