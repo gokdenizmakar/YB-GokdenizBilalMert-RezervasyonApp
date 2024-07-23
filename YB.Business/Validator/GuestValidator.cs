@@ -31,6 +31,9 @@ namespace YB.Business.Validator
                  .NotEmpty().WithMessage("E-posta adresi boş olamaz!")
                 .EmailAddress().WithMessage("Geçersiz e-posta adresi!");
 
+            RuleFor(x => x.TC).NotEmpty().WithMessage("TC alanı boş geçilemez!")
+                .Length(11).WithMessage("TC alanı 11 karakter olmalı!");
+
 
         }
     }

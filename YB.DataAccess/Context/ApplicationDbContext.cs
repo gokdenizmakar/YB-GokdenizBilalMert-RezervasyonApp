@@ -21,13 +21,13 @@ namespace YB.DataAccess.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //Gökdeniz dbcontext
-            //optionsBuilder.UseSqlServer("Data Source=DESKTOP-F07Q5IB; Initial Catalog=YBRezervasyonDB; Integrated Security=True;Connect Timeout=30;Encrypt=True; Trust Server Certificate=True;");
+            optionsBuilder.UseSqlServer("Data Source=DESKTOP-F07Q5IB; Initial Catalog=YBRezervasyonDB; Integrated Security=True;Connect Timeout=30;Encrypt=True; Trust Server Certificate=True;");
 
             //Bilal dbcontext
             //optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=YBRezervasyonDB;Integrated Security=True;Trust Server Certificate=False;");
 
             //Mert dbcontext
-            optionsBuilder.UseSqlServer("Data Source=MERT\\SQLEXPRESS;initial catalog=YBRezervasyonDB;Integrated Security=True;Connect Timeout=30;Encrypt=True; Trust Server Certificate=True;");
+            //optionsBuilder.UseSqlServer("Data Source=MERT\\SQLEXPRESS;initial catalog=YBRezervasyonDB;Integrated Security=True;Connect Timeout=30;Encrypt=True; Trust Server Certificate=True;");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -45,6 +45,8 @@ namespace YB.DataAccess.Context
                 .HasKey(b => b.ID);
             modelBuilder.Entity<Payment>()
                 .HasKey(b => b.ID);
+
+            modelBuilder.Entity<Guest>().Ignore(x => x.FullName);
 
             modelBuilder.Entity<Staff>().Property(x => x.Salary).HasColumnType("decimal(10,2)");
             modelBuilder.Entity<Booking>().Property(x => x.TotalPrice).HasColumnType("decimal(10,2)");
