@@ -30,8 +30,7 @@ namespace YB.DataAccess.Repositories.EntityFramework
         {
             entity.IsDeleted = true;
             entity.IsActive = false;
-            dbset.Update(entity);
-            context.SaveChanges();
+            Update(entity);
         }
 
         public T Get(Expression<Func<T, bool>> filter)
