@@ -12,7 +12,7 @@ namespace YB.Business.Validator
     {
         public RoomValidator()
         {
-            RuleFor(r => r.Status).MaximumLength(20).WithMessage("maximum 20 karakter olabilir.");
+            RuleFor(r => r.Status).MaximumLength(20).WithMessage("Oda durumu en fazla 20 karakter olabilir!");
         }
     }
 }

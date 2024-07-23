@@ -12,16 +12,16 @@ namespace YB.Business.Validator
     {
         public RoomTypeValidator()
         {
-            RuleFor(rt => rt.Name).NotEmpty().WithMessage("Oda tipi alanı boş geçilemez.")
-              .MinimumLength(5).WithMessage("Oda tipi en az 10 karakter olmalıdır.")
-              .MaximumLength(50).WithMessage("Oda tipi maximum 50 karakter olabilir.")
-              .Matches("^[a-zA-ZğüşıöçĞÜŞİÖÇ\\s]+$").WithMessage("Lütfen sadece harf girişi yapınız.");
+            RuleFor(rt => rt.Name).NotEmpty().WithMessage("Oda tipi alanı boş geçilemez!")
+              .MinimumLength(3).WithMessage("Oda tipi en az 3 karakter olabilir!")
+              .MaximumLength(50).WithMessage("Oda tipi en fazla 50 karakter olabilir!")
+              .Matches("^[a-zA-ZğüşıöçĞÜŞİÖÇ\\s]+$").WithMessage("Lütfen sadece harf girişi yapınız!");
             RuleFor(rt => rt.Description)
-               .MaximumLength(255).WithMessage("Açıklama maximum 255 karakter olabilir.");
+               .MaximumLength(255).WithMessage("Açıklama en fazla 255 karakter olabilir!");
 
-            RuleFor(rt => rt.Capacity).InclusiveBetween((byte)1, (byte)4);
+            RuleFor(rt => rt.Capacity).InclusiveBetween((byte)1, (byte)4).WithMessage("Oda kapasitesi en fazla 4 kişi olabilir!");
 
-            RuleFor(rt => rt.PricePerNight).InclusiveBetween((double)0, (double)99999999.99).WithMessage("Geçersiz ücret aralığı");
+            RuleFor(rt => rt.PricePerNight).InclusiveBetween((double)0, (double)99999999.99).WithMessage("Geçersiz ücret aralığı!");
 
         }
     }

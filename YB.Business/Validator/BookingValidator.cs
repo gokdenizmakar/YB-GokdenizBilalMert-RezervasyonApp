@@ -13,11 +13,11 @@ namespace YB.Business.Validator
         public BookingValidator()
         {
 
-            RuleFor(b => b.TotalPrice).InclusiveBetween((double)0, (double)99999999.99).WithMessage("Geçersiz ücret aralığı");
+            RuleFor(b => b.TotalPrice).InclusiveBetween((double)0, (double)99999999.99).WithMessage("Geçersiz ücret aralığı!");
     
             RuleFor(x => new { x.CheckinDate, x.CheckoutDate })
             .Must(dates => dates.CheckinDate < dates.CheckoutDate)
-            .WithMessage("Başlangıç tarihi bitiş tarihinden önce olmalıdır.");
+            .WithMessage("Rezervasyon başlangıç tarihi, bitiş tarihinden önce olmalıdır!");
         }
     }
 }
