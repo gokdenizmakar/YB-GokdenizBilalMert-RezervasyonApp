@@ -21,7 +21,6 @@ namespace YB.Business.Validator
 
             RuleFor(rt => rt.Capacity).InclusiveBetween((byte)1, (byte)4).WithMessage("Oda kapasitesi en fazla 4 kişi olabilir!");
 
-            RuleFor(rt => rt.PricePerNight).InclusiveBetween((double)0, (double)99999999.99).WithMessage("Geçersiz ücret aralığı!");
 
         }
     }

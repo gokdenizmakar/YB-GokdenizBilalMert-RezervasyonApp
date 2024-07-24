@@ -34,28 +34,23 @@ namespace YB.UI.Forms
 
         private void Frm_Booking_Load(object sender, EventArgs e)
         {
+            //Oda tipi validasyonu için gerekli.
+            cmbRoomType.DataSource = null;
 
-            lstGuest.Items.Add("a");
-            lstGuest.Items.Add("b");
-            lstGuest.Items.Add("c");
-            lstGuest.Items.Add("d");
+            //tarih seçim ayarları
+            dtpCheckOut.MinDate = dtpCheckIn.Value;
+            dtpCheckIn.MinDate = DateTime.Now;
 
-
+            //kişi seçim ayarları
             nmrGuest.Minimum = 1;
             nmrGuest.Maximum = 4;
             grpMusteri.Visible = false;
+            
+            //Hotel listesini doldur
             FillHotelList();
         }
 
-        private void FillRoomType(Guid selectedHotelID)
-        {
-            var data = roomTypeService.GetAllRoomTypeWithHotel(selectedHotelID).ToList();
-            cmbRoomType.DataSource = null;
-            cmbRoomType.DataSource = data);
-            cmbRoomType.DisplayMember = "Name";
-            cmbRoomType.ValueMember = "ID";
-        }
-
+        //Hotel Listesini Doldur.
         private void FillHotelList()
         {
             lstHotelList.DataSource = null;
@@ -63,20 +58,51 @@ namespace YB.UI.Forms
             lstHotelList.DisplayMember = "Name";
             lstHotelList.ValueMember = "ID";
         }
-
+        //işlem gören misafirler:
         List<Guest> guest = new List<Guest>();
         int maxindex = 0;
         int nowindex = 0;
 
+        //Secilen hotelin idsi:
+        Guid seciliHotelid = default(Guid);
+
+
         private void nmrGuest_ValueChanged(object sender, EventArgs e)
         {
-            if (nmrGuest.Value != 0)
+            try
             {
-                grpMusteri.Visible = true;
-            }
-            maxindex = Convert.ToInt32(nmrGuest.Value);
-        }
 
+                if (nmrGuest.Value != 0 && seciliHotelid!=default(Guid))
+                {
+                    grpMusteri.Visible = true;
+                }
+                maxindex = Convert.ToInt32(nmrGuest.Value);
+                FillRoomAndRoomType();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);
+            }
+        }
+        void FillRoomAndRoomType()
+        {
+            try
+            {
+                if (seciliHotelid != default(Guid))
+                {
+                    var uygunRooms = bookingService.GetRoomByVisible((byte)nmrGuest.Value, DateOnly.FromDateTime(dtpCheckIn.Value), DateOnly.FromDateTime(dtpCheckOut.Value), seciliHotelid);
+
+                    cmbRoomType.DisplayMember = "Name";
+                    cmbRoomType.ValueMember = "RoomTypeID";
+                    cmbRoomType.DataSource = uygunRooms;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
         private void btnGuestSave_Click(object sender, EventArgs e)
         {
             try
@@ -123,17 +149,37 @@ namespace YB.UI.Forms
 
         private void lstHotelList_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            FillRoomAndRoomType();
         }
-
         private void lstHotelList_DoubleClick(object sender, EventArgs e)
         {
-            FillRoomType(Guid.Parse(lstHotelList.SelectedValue.ToString()));
+            seciliHotelid = (Guid)lstHotelList.SelectedValue;
         }
 
         private void label11_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void cmbRoomType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var uygunodalar = roomService.GetAll().Where(x => x.RoomTypeID == (Guid)cmbRoomType.SelectedValue && x.HotelID==seciliHotelid).ToList();
+                cmbRoom.DataSource = uygunodalar;
+                cmbRoom.DisplayMember = "RoomNumber";
+                cmbRoom.ValueMember = "ID";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+
+        private void dtpCheckIn_ValueChanged(object sender, EventArgs e)
+        {
+            dtpCheckOut.MinDate = dtpCheckIn.Value;
         }
     }
 }

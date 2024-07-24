@@ -30,7 +30,7 @@ namespace YB.DataAccess.Context
             //optionsBuilder.UseSqlServer("Data Source=MERT\\SQLEXPRESS;initial catalog=YBRezervasyonDB;Integrated Security=True;Connect Timeout=30;Encrypt=True; Trust Server Certificate=True;");
 
             //bll bpc22
-            optionsBuilder.UseSqlServer("Data Source=BPC22; Initial Catalog=YBRezervasyonDB; Integrated Security=True;Connect Timeout=30;Encrypt=True; Trust Server Certificate=True;");
+            //optionsBuilder.UseSqlServer("Data Source=BPC22; Initial Catalog=YBRezervasyonDB; Integrated Security=True;Connect Timeout=30;Encrypt=True; Trust Server Certificate=True;");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -53,7 +53,7 @@ namespace YB.DataAccess.Context
 
             modelBuilder.Entity<Staff>().Property(x => x.Salary).HasColumnType("decimal(10,2)");
             modelBuilder.Entity<Booking>().Property(x => x.TotalPrice).HasColumnType("decimal(10,2)");
-            modelBuilder.Entity<RoomType>().Property(x => x.PricePerNight).HasColumnType("decimal(10,2)");
+            modelBuilder.Entity<Room>().Property(x => x.PricePerNight).HasColumnType("decimal(10,2)");
             modelBuilder.Entity<Payment>().Property(x => x.Amount).HasColumnType("decimal(10,2)");
 
 
@@ -126,7 +126,6 @@ namespace YB.DataAccess.Context
                     Name = "Single",
                     Capacity = 1,
                     Description = "Manitle gelme",
-                    PricePerNight = 100,
                 },
                  new RoomType
                  {
@@ -134,7 +133,6 @@ namespace YB.DataAccess.Context
                      Name = "Double",
                      Capacity = 2,
                      Description = "Manitle gel",
-                     PricePerNight = 150,
                  },
                   new RoomType
                   {
@@ -142,7 +140,6 @@ namespace YB.DataAccess.Context
                       Name = "Triple",
                       Capacity = 3,
                       Description = "Tek çocukla gel",
-                      PricePerNight = 200,
                   },
                   new RoomType
                   {
@@ -150,16 +147,16 @@ namespace YB.DataAccess.Context
                       Name = "Suit",
                       Capacity = 4,
                       Description = "Aile ocağı",
-                      PricePerNight = 400,
                   });
             modelBuilder.Entity<Room>().HasData(
                new Room
                {
                    ID = Guid.Parse("7179234B-D785-4602-9CB1-50786652C079"),
-                   HotelID = HotelId1,
+                   HotelID = HotelId1,//3 yıldızlı
                    RoomTypeID = RoomTypeId1,
                    RoomNumber = "101",
-                   Status = "Available"
+                   Status = "Available",
+                   PricePerNight = 300
                },
                new Room
                {
@@ -167,23 +164,26 @@ namespace YB.DataAccess.Context
                    HotelID = HotelId1,
                    RoomTypeID = RoomTypeId2,
                    RoomNumber = "201",
-                   Status = "Available"
+                   Status = "Available",
+                   PricePerNight=400
                },
                new Room
                {
                    ID = Guid.Parse("C89613D6-69E3-47E2-987F-052F80ECAC9D"),
                    HotelID = HotelId1,
                    RoomTypeID = RoomTypeId3,
-                   RoomNumber= "301",
-                   Status = "Available"
+                   RoomNumber = "301",
+                   Status = "Available",
+                   PricePerNight=500
                },
                new Room
                {
                    ID = Guid.Parse("07919E09-37E7-4CD3-8C11-08AE41EB5C82"),
                    HotelID = HotelId1,
                    RoomTypeID = RoomTypeId4,
-                   RoomNumber= "401",
-                   Status = "Available"
+                   RoomNumber = "401",
+                   Status = "Available",
+                   PricePerNight=600
                },
                 // Selge Beach Hotel
                 new Room
@@ -191,8 +191,9 @@ namespace YB.DataAccess.Context
                     ID = Guid.Parse("3351787F-F12A-43E1-81A8-855A7A70C5C2"),
                     HotelID = HotelId2,
                     RoomTypeID = RoomTypeId1,
-                    RoomNumber= "101",
-                    Status = "Available"
+                    RoomNumber = "101",
+                    Status = "Available",
+                    PricePerNight = 400
                 },
                 new Room
                 {
@@ -200,7 +201,8 @@ namespace YB.DataAccess.Context
                     HotelID = HotelId2,
                     RoomTypeID = RoomTypeId2,
                     RoomNumber = "201",
-                    Status = "Available"
+                    Status = "Available",
+                    PricePerNight = 500
                 },
                 new Room
                 {
@@ -208,7 +210,8 @@ namespace YB.DataAccess.Context
                     HotelID = HotelId2,
                     RoomTypeID = RoomTypeId3,
                     RoomNumber = "301",
-                    Status = "Available"
+                    Status = "Available",
+                    PricePerNight = 600
                 },
                 new Room
                 {
@@ -216,7 +219,8 @@ namespace YB.DataAccess.Context
                     HotelID = HotelId2,
                     RoomTypeID = RoomTypeId4,
                     RoomNumber = "401",
-                    Status = "Available"
+                    Status = "Available",
+                    PricePerNight = 700
                 },
                  // Caprice Hotel
                  new Room
@@ -225,7 +229,8 @@ namespace YB.DataAccess.Context
                      HotelID = HotelId3,
                      RoomTypeID = RoomTypeId1,
                      RoomNumber = "101",
-                     Status = "Available"
+                     Status = "Available",
+                     PricePerNight = 100
                  },
                  new Room
                  {
@@ -233,7 +238,8 @@ namespace YB.DataAccess.Context
                      HotelID = HotelId3,
                      RoomTypeID = RoomTypeId2,
                      RoomNumber = "201",
-                     Status = "Available"
+                     Status = "Available",
+                     PricePerNight = 200
                  },
                  new Room
                  {
@@ -241,7 +247,8 @@ namespace YB.DataAccess.Context
                      HotelID = HotelId3,
                      RoomTypeID = RoomTypeId3,
                      RoomNumber = "301",
-                     Status = "Available"
+                     Status = "Available",
+                     PricePerNight = 300
                  },
                 new Room
                 {
@@ -249,7 +256,8 @@ namespace YB.DataAccess.Context
                     HotelID = HotelId3,
                     RoomTypeID = RoomTypeId4,
                     RoomNumber = "401",
-                    Status = "Available"
+                    Status = "Available",
+                    PricePerNight = 400
                 },
                 // Anormal Hotel
                 new Room
@@ -258,7 +266,8 @@ namespace YB.DataAccess.Context
                     HotelID = HotelId4,
                     RoomTypeID = RoomTypeId1,
                     RoomNumber = "101",
-                    Status = "Available"
+                    Status = "Available",
+                    PricePerNight = 500
                 },
                 new Room
                 {
@@ -266,7 +275,8 @@ namespace YB.DataAccess.Context
                     HotelID = HotelId4,
                     RoomTypeID = RoomTypeId2,
                     RoomNumber = "201",
-                    Status = "Available"
+                    Status = "Available",
+                    PricePerNight = 600
                 },
                  new Room
                  {
@@ -274,7 +284,8 @@ namespace YB.DataAccess.Context
                      HotelID = HotelId4,
                      RoomTypeID = RoomTypeId3,
                      RoomNumber = "301",
-                     Status = "Available"
+                     Status = "Available",
+                     PricePerNight = 700
                  },
                  new Room
                  {
@@ -282,10 +293,11 @@ namespace YB.DataAccess.Context
                      HotelID = HotelId4,
                      RoomTypeID = RoomTypeId4,
                      RoomNumber = "401",
-                     Status = "Available"
+                     Status = "Available",
+                     PricePerNight = 800
                  }
 
-            );
+            ); 
             base.OnModelCreating(modelBuilder);
         }
 

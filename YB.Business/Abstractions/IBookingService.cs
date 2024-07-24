@@ -10,5 +10,6 @@ namespace YB.Business.Abstractions
     public interface IBookingService : IGenericService<Booking>
     {
         public void AddBookingWithGuests(Booking booking, List<Guid> guestIds);
+        public IEnumerable<object> GetRoomByVisible(byte roomCapacity22, DateOnly checkin, DateOnly checkout, Guid hotelid);
     }
 }

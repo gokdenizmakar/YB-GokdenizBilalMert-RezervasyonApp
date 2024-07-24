@@ -26,9 +26,40 @@ namespace YB.DataAccess.Repositories.EntityFramework
             context.SaveChanges();
         }
 
-        public IEnumerable<Room> GetRoomByVisible(Booking booking, List<Guid> guestIds)
+        public IEnumerable<object> GetRoomByVisible(byte roomCapacity22, DateOnly checkin, DateOnly checkout, Guid hotelid)
         {
-            return context.Rooms.Include(x=>x.Bookings).Where()
+            // booking, room, roomtype ilişkili data çekildi.
+            var list = context.Bookings
+                .Join(context.Rooms,
+                      booking => booking.RoomID,
+                      room => room.ID,
+                      (booking, room) => new { booking, room })
+                .Join(context.RoomTypes,
+                      br => br.room.RoomTypeID,
+                      roomType => roomType.ID,
+                      (br, roomType) => new { br.booking, br.room, roomType })
+                .ToList();
+
+            var eslesenler = list.Where(x => x.booking.Room.HotelID == hotelid
+                                          && x.booking.CheckinDate <= checkout
+                                          && x.booking.CheckoutDate >= checkin);
+
+            var idList = eslesenler.Select(x => x.room.ID);
+
+            return context.Rooms
+                .Join(context.RoomTypes,
+                      room => room.RoomTypeID,
+                      roomType => roomType.ID,
+                      (room, roomType) => new { room, roomType })
+                .Where(x =>x.room.HotelID==hotelid && !idList.Contains(x.room.ID) && x.roomType.Capacity >= roomCapacity22).Select(room => new
+                {
+                    RoomTypeID = room.roomType.ID,
+                    Name = room.roomType.Name,
+                    RoomID = room.room.ID,
+                    RoomNumber=room.room.RoomNumber,
+                    Price=room.room.PricePerNight
+                })
+                .ToList();
         }
     }
 }

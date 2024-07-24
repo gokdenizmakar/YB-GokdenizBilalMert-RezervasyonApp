@@ -21,7 +21,7 @@ namespace YB.Business.Services
 
         public BookingService(IBookingDal _bookingdal)
         {
-            bookingdal= _bookingdal;
+            bookingdal = _bookingdal;
         }
         public void Add(Booking entity)
         {
@@ -42,7 +42,7 @@ namespace YB.Business.Services
             {
                 throw new Exception(string.Join("\n", result.Errors));
             }
-            if (guestIds==null)
+            if (guestIds == null)
             {
                 throw new Exception("Misafir ID'leri boş olamaz!");
             }
@@ -88,6 +88,17 @@ namespace YB.Business.Services
                 throw new Exception("Null ID değeri!");
             }
             return bookingdal.GetByID(id);
+        }
+
+        public IEnumerable<object> GetRoomByVisible(byte roomCapacity22, DateOnly checkin, DateOnly checkout, Guid hotelid)
+        {
+            if (hotelid == null) throw new Exception("Lütfen Hotel seçiniz!");
+
+            else if (roomCapacity22 == null) throw new Exception("Lütfen misafir sayısı giriniz!");
+
+            else if (checkout < checkin || checkin==default(DateOnly) || checkout == default(DateOnly) ) throw new Exception("Lütfen rezervasyon başlangıç tarihini, bitiş tarihinden önce olarak seçiniz!");
+
+            return bookingdal.GetRoomByVisible(roomCapacity22, checkin, checkout, hotelid) ?? throw new Exception("Geçerli filtrede oda bulunamadı! Lütfen hotel, tarih veya misafir sayısını değiştiriniz!");
         }
 
         public bool IfEntityExists(Expression<Func<Booking, bool>> filter)
