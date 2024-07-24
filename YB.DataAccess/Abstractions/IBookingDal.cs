@@ -9,5 +9,7 @@ namespace YB.DataAccess.Abstractions
 {
     public interface IBookingDal : IRepositoryDal<Booking>
     {
+        public void AddBookingWithGuests(Booking booking, List<Guid> guestIds);
+        public IEnumerable<Room> GetRoomByVisible(RoomType rtype,DateOnly checkin,DateOnly checkout);
     }
 }

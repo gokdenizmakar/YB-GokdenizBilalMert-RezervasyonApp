@@ -50,7 +50,7 @@ namespace YB.Business.Services
             return staffdal.Get(filter);
         }
 
-        public IQueryable<Staff> GetAll()
+        public IEnumerable<Staff> GetAll()
         {
             return staffdal.GetAll().Where(x => x.IsActive == true && x.IsDeleted == false);
         }

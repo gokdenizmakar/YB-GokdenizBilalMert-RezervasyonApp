@@ -9,5 +9,6 @@ namespace YB.Business.Abstractions
 {
     public interface IBookingService : IGenericService<Booking>
     {
+        public void AddBookingWithGuests(Booking booking, List<Guid> guestIds);
     }
 }

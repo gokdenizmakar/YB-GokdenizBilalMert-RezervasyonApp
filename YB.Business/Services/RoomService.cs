@@ -50,7 +50,7 @@ namespace YB.Business.Services
             return roomDal.Get(filter);
         }
 
-        public IQueryable<Room> GetAll()
+        public IEnumerable<Room> GetAll()
         {
             return roomDal.GetAll().Where(x => x.IsActive == true && x.IsDeleted == false);
         }

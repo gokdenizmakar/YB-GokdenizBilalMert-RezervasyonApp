@@ -14,7 +14,7 @@ namespace YB.DataAccess.Abstractions
         void Update(T entity);
         void Delete(T entity);
         T GetByID(Guid id);
-        IQueryable<T> GetAll();
+        IEnumerable<T> GetAll();
         T Get(Expression<Func<T, bool>> filter);
         IQueryable<T> GetAllQueryable(Expression<Func<T, bool>> filter);
         bool IfEntityExists(Expression<Func<T, bool>> filter);

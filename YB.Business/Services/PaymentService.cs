@@ -49,7 +49,7 @@ namespace YB.Business.Services
             return paymentdal.Get(filter);
         }
 
-        public IQueryable<Payment> GetAll()
+        public IEnumerable<Payment> GetAll()
         {
             return paymentdal.GetAll().Where(x => x.IsActive == true && x.IsDeleted == false);
         }

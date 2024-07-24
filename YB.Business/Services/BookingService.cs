@@ -10,6 +10,7 @@ using YB.Business.Abstractions;
 using YB.Business.Validator;
 using YB.DataAccess.Abstractions;
 using YB.DataAccess.Repositories.EntityFramework;
+using YB.Entities.Abstraction;
 using YB.Entities.Models;
 
 namespace YB.Business.Services
@@ -24,13 +25,28 @@ namespace YB.Business.Services
         }
         public void Add(Booking entity)
         {
+            //BookingValidator bVal = new BookingValidator();
+            //ValidationResult result = bVal.Validate(entity);
+            //if (!result.IsValid)
+            //{
+            //    throw new Exception(string.Join("\n", result.Errors));
+            //}
+            //bookingdal.Add(entity);
+        }
+
+        public void AddBookingWithGuests(Booking booking, List<Guid> guestIds)
+        {
             BookingValidator bVal = new BookingValidator();
-            ValidationResult result = bVal.Validate(entity);
+            ValidationResult result = bVal.Validate(booking);
             if (!result.IsValid)
             {
                 throw new Exception(string.Join("\n", result.Errors));
             }
-            bookingdal.Add(entity);
+            if (guestIds==null)
+            {
+                throw new Exception("Misafir ID'leri boş olamaz!");
+            }
+            bookingdal.AddBookingWithGuests(booking, guestIds);
         }
 
         public void Delete(Booking entity)
@@ -51,7 +67,7 @@ namespace YB.Business.Services
             return bookingdal.Get(filter);
         }
 
-        public IQueryable<Booking> GetAll()
+        public IEnumerable<Booking> GetAll()
         {
             return bookingdal.GetAll().Where(x => x.IsActive == true && x.IsDeleted == false);
         }

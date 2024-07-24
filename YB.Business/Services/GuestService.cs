@@ -52,7 +52,7 @@ namespace YB.Business.Services
             return guestdal.Get(filter);
         }
 
-        public IQueryable<Guest> GetAll()
+        public IEnumerable<Guest> GetAll()
         {
             return guestdal.GetAll().Where(x => x.IsActive == true && x.IsDeleted == false);
         }

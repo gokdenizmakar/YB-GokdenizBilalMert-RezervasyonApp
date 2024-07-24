@@ -21,13 +21,16 @@ namespace YB.DataAccess.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //Gökdeniz dbcontext
-            //optionsBuilder.UseSqlServer("Data Source=DESKTOP-F07Q5IB; Initial Catalog=YBRezervasyonDB; Integrated Security=True;Connect Timeout=30;Encrypt=True; Trust Server Certificate=True;");
+            optionsBuilder.UseSqlServer("Data Source=DESKTOP-F07Q5IB; Initial Catalog=YBRezervasyonDB; Integrated Security=True;Connect Timeout=30;Encrypt=True; Trust Server Certificate=True;");
 
             //Bilal dbcontext
             //optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=YBRezervasyonDB;Integrated Security=True;Trust Server Certificate=False;");
 
             //Mert dbcontext
-            optionsBuilder.UseSqlServer("Data Source=MERT\\SQLEXPRESS;initial catalog=YBRezervasyonDB;Integrated Security=True;Connect Timeout=30;Encrypt=True; Trust Server Certificate=True;");
+            //optionsBuilder.UseSqlServer("Data Source=MERT\\SQLEXPRESS;initial catalog=YBRezervasyonDB;Integrated Security=True;Connect Timeout=30;Encrypt=True; Trust Server Certificate=True;");
+
+            //bll bpc22
+            optionsBuilder.UseSqlServer("Data Source=BPC22; Initial Catalog=YBRezervasyonDB; Integrated Security=True;Connect Timeout=30;Encrypt=True; Trust Server Certificate=True;");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -53,6 +56,7 @@ namespace YB.DataAccess.Context
             modelBuilder.Entity<RoomType>().Property(x => x.PricePerNight).HasColumnType("decimal(10,2)");
             modelBuilder.Entity<Payment>().Property(x => x.Amount).HasColumnType("decimal(10,2)");
 
+
             var HotelId4 = Guid.Parse("4F6B4B97-1288-44E8-BE28-F142F318B080");
             var HotelId1 = Guid.Parse("2545701B-8CE9-45C7-A563-41D5753E3560");
             var HotelId2 = Guid.Parse("4DC67C0C-0D73-421F-AF3C-0F0D3605DB4F");
@@ -62,6 +66,12 @@ namespace YB.DataAccess.Context
             var RoomTypeId1 = Guid.Parse("A705B8F5-594C-4BD8-B099-5F017576FBFB");
             var RoomTypeId2 = Guid.Parse("AF771CBA-903F-44AB-A5D6-80C956C5D71B");
             var RoomTypeId3 = Guid.Parse("2F7DEC9E-2B10-41E3-87E1-3CB2B4A03211");
+
+
+            modelBuilder.Entity<Booking>()
+           .HasMany(b => b.Guests)
+           .WithMany(g => g.Bookings)
+           .UsingEntity(j => j.ToTable("BookingGuest"));
 
 
             modelBuilder.Entity<Hotel>().HasData(

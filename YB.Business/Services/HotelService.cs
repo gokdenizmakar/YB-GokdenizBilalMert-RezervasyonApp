@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Results;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,18 +49,20 @@ namespace YB.Business.Services
             return hoteldal.Get(filter);
         }
 
-        public IQueryable<Hotel> GetAll()
+        public IEnumerable<Hotel> GetAll()
         {
             return hoteldal.GetAll().Where(x=>x.IsActive==true && x.IsDeleted==false);
         }
 
         public IQueryable<Hotel> GetAllQueryable(Expression<Func<Hotel, bool>> filter)
         {
-            if (filter == null)
-            {
-                throw new Exception("Hotel filtresi boş olamaz!(GetAllQueryable)");
-            }
-            return hoteldal.GetAllQueryable(filter);
+            //if (filter == null)
+            //{
+            //    throw new Exception("Hotel filtresi boş olamaz!(GetAllQueryable)");
+            //}
+            //return hoteldal.GetAllQueryable(filter);
+
+            return hoteldal.GetAllQueryable(x => x.IsActive == true);
         }
 
         public Hotel GetByID(Guid id)

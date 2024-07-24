@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,18 +52,25 @@ namespace YB.Business.Services
             return roomTypeDal.Get(filter);
         }
 
-        public IQueryable<RoomType> GetAll()
+        public IEnumerable<RoomType> GetAll()
         {
             return roomTypeDal.GetAll().Where(x => x.IsActive == true && x.IsDeleted == false);
         }
 
         public IQueryable<RoomType> GetAllQueryable(Expression<Func<RoomType, bool>> filter)
         {
-            if (filter == null)
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<Object> GetAllRoomTypeWithHotel(Guid hotelid)
+        {
+            return roomTypeDal.GetAllQueryable(x=>x.ID!=null).Include(x=>x.Rooms).ThenInclude(x=>x.Hotel).SelectMany(rt => rt.Rooms.Select(room => new 
             {
-                throw new Exception("Oda tipi filtresi boş olamaz!(GetAllQueryable)");
-            }
-            return roomTypeDal.GetAllQueryable(filter);
+                ID = rt.ID,
+                Name = rt.Name,
+                RoomID = room.ID,
+                HotelID = room.Hotel.ID
+            })).Where(x=>x.HotelID==hotelid); 
         }
 
         public RoomType GetByID(Guid id)
