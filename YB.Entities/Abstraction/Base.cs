@@ -15,7 +15,7 @@ namespace YB.Entities.Abstraction
             IsActive = true;
             IsDeleted = false;
         }
-        public Guid ID { get; }
+        public Guid ID { get; set;}
         public DateTime CreatedDate { get; }
         public DateTime UpdatedDate { get; set; }
         public bool IsActive { get; set; }

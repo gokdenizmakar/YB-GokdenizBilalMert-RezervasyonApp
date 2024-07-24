@@ -13,6 +13,7 @@ namespace YB.Entities.Models
         public Guid HotelID { get; set; }
         public RoomType? RoomType { get; set; }
         public Guid RoomTypeID { get; set; }
+        public string? RoomNumber { get; set; }
         public string? Status { get; set; }
         public ICollection<Booking>? Bookings { get; set; }
     }
