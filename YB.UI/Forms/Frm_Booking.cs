@@ -25,6 +25,8 @@ namespace YB.UI.Forms
         public Frm_Booking()
         {
             InitializeComponent();
+
+            //Dependicy Injection atamaları:
             hotelService = InstanceFactory.GetInstance<IHotelService>();
             guestService = InstanceFactory.GetInstance<IGuestService>();
             bookingService = InstanceFactory.GetInstance<IBookingService>();
@@ -42,21 +44,30 @@ namespace YB.UI.Forms
             dtpCheckIn.MinDate = DateTime.Now;
 
             //kişi seçim ayarları
-            nmrGuest.Minimum = 1;
+            nmrGuest.Minimum = 0;
             nmrGuest.Maximum = 4;
-            grpMusteri.Visible = false;
-            
+            grpMusteri.Enabled = false;
+
             //Hotel listesini doldur
             FillHotelList();
+
         }
 
         //Hotel Listesini Doldur.
         private void FillHotelList()
         {
-            lstHotelList.DataSource = null;
-            lstHotelList.DataSource = hotelService.GetAll().ToList();
-            lstHotelList.DisplayMember = "Name";
-            lstHotelList.ValueMember = "ID";
+            try
+            {
+                lstHotelList.DataSource = null;
+                lstHotelList.DataSource = hotelService.GetAll().ToList();
+                lstHotelList.DisplayMember = "Name";
+                lstHotelList.ValueMember = "ID";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
         //işlem gören misafirler:
         List<Guest> guest = new List<Guest>();
@@ -72,12 +83,28 @@ namespace YB.UI.Forms
             try
             {
 
-                if (nmrGuest.Value != 0 && seciliHotelid!=default(Guid))
+                if (nmrGuest.Value > 0 && seciliHotelid == default(Guid))
                 {
-                    grpMusteri.Visible = true;
+                    MessageBox.Show("Lütfen hotel seçiniz!");
+                    nmrGuest.Value = 0;
                 }
+                if (lstGuest.Items.Count> Convert.ToInt32(nmrGuest.Value))
+                {
+                    //Eski değeridne kal!
+                    nmrGuest.Value = maxindex;
+                    throw new Exception("Kayıtlı misafir sayısı, belirtilen misafir sayısından fazla olamaz! Lütfen misafir siliniz!");
+                }
+                else
+                {
                 maxindex = Convert.ToInt32(nmrGuest.Value);
+                }
+                //eğer index düşürülecekse listbox guest kontrol ettirim misafir sildirt yoksa düşürtme.
+
                 FillRoomAndRoomType();
+                if (cmbRoom.SelectedIndex != -1)
+                {
+                    grpMusteri.Enabled = true;
+                }
             }
             catch (Exception ex)
             {
@@ -89,13 +116,16 @@ namespace YB.UI.Forms
         {
             try
             {
-                if (seciliHotelid != default(Guid))
+                if (nmrGuest.Value > 0 && seciliHotelid != default(Guid))
                 {
                     var uygunRooms = bookingService.GetRoomByVisible((byte)nmrGuest.Value, DateOnly.FromDateTime(dtpCheckIn.Value), DateOnly.FromDateTime(dtpCheckOut.Value), seciliHotelid);
 
                     cmbRoomType.DisplayMember = "Name";
                     cmbRoomType.ValueMember = "RoomTypeID";
                     cmbRoomType.DataSource = uygunRooms;
+                }
+                else
+                {
                 }
             }
             catch (Exception ex)
@@ -107,19 +137,35 @@ namespace YB.UI.Forms
         {
             try
             {
-                guest[nowindex] = new Guest
+                if (lstGuest.Items.Count < maxindex)
                 {
-                    Address = rtxtAdress.Text,
-                    DateOfBirth = DateOnly.FromDateTime(dtpBirthDate.Value),
-                    Email = txtMusteriEmail.Text,
-                    FirstName = txtMusteriAd.Text,
-                    LastName = txtMusteriSoyad.Text,
-                    Phone = mskPhone.Text,
-                    TC = mskTC.Text,
-                };
-                guestService.Add(guest[nowindex]);
-                nowindex++;
-                if (nowindex == maxindex + 1) { grpMusteri.Visible = false; }
+                    while (guest.Count <= nowindex)
+                    {
+                        guest.Add(new Guest());
+                    }
+                    guest[nowindex] = new Guest
+                    {
+                        Address = rtxtAdress.Text,
+                        DateOfBirth = DateOnly.FromDateTime(dtpBirthDate.Value),
+                        Email = txtMusteriEmail.Text,
+                        FirstName = txtMusteriAd.Text,
+                        LastName = txtMusteriSoyad.Text,
+                        Phone = mskPhone.Text,
+                        TC = mskTC.Text,
+                    };
+                    lstGuest.ValueMember = "ID";
+                    lstGuest.DisplayMember = "FullName";
+                    lstGuest.Items.Add(guest[nowindex]);
+                    nowindex++;
+                    if (nowindex==maxindex || nmrGuest.Value==lstGuest.Items.Count)
+                    {
+                        grpMusteri.Enabled = false;
+                    }
+                }
+                else
+                {
+                    btnGuestSave.Enabled = false;
+                }
 
             }
             catch (Exception ex)
@@ -165,7 +211,7 @@ namespace YB.UI.Forms
         {
             try
             {
-                var uygunodalar = roomService.GetAll().Where(x => x.RoomTypeID == (Guid)cmbRoomType.SelectedValue && x.HotelID==seciliHotelid).ToList();
+                var uygunodalar = roomService.GetAll().Where(x => x.RoomTypeID == (Guid)cmbRoomType.SelectedValue && x.HotelID == seciliHotelid).ToList();
                 cmbRoom.DataSource = uygunodalar;
                 cmbRoom.DisplayMember = "RoomNumber";
                 cmbRoom.ValueMember = "ID";
@@ -179,7 +225,7 @@ namespace YB.UI.Forms
 
         private void dtpCheckIn_ValueChanged(object sender, EventArgs e)
         {
-            dtpCheckOut.MinDate = dtpCheckIn.Value;
+            dtpCheckOut.MinDate = dtpCheckIn.Value.AddDays(1);
         }
     }
 }

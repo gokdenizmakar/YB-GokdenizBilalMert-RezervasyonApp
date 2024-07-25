@@ -137,7 +137,7 @@
             grpMusteri.Controls.Add(label5);
             grpMusteri.Controls.Add(label4);
             grpMusteri.Controls.Add(label2);
-            grpMusteri.Location = new Point(668, 8);
+            grpMusteri.Location = new Point(743, 8);
             grpMusteri.Margin = new Padding(1);
             grpMusteri.Name = "grpMusteri";
             grpMusteri.Padding = new Padding(1);
@@ -343,7 +343,7 @@
             // lblTotalPrice
             // 
             lblTotalPrice.AutoSize = true;
-            lblTotalPrice.Location = new Point(294, 81);
+            lblTotalPrice.Location = new Point(308, 84);
             lblTotalPrice.Margin = new Padding(1, 0, 1, 0);
             lblTotalPrice.Name = "lblTotalPrice";
             lblTotalPrice.Size = new Size(57, 20);
@@ -450,20 +450,20 @@
             // 
             // btnGuestUpdate
             // 
-            btnGuestUpdate.Location = new Point(524, 217);
+            btnGuestUpdate.Location = new Point(522, 218);
             btnGuestUpdate.Margin = new Padding(1);
             btnGuestUpdate.Name = "btnGuestUpdate";
-            btnGuestUpdate.Size = new Size(108, 24);
+            btnGuestUpdate.Size = new Size(140, 24);
             btnGuestUpdate.TabIndex = 11;
             btnGuestUpdate.Text = "Misafir Güncelle";
             btnGuestUpdate.UseVisualStyleBackColor = true;
             // 
             // btnGuestDelete
             // 
-            btnGuestDelete.Location = new Point(404, 217);
+            btnGuestDelete.Location = new Point(384, 218);
             btnGuestDelete.Margin = new Padding(1);
             btnGuestDelete.Name = "btnGuestDelete";
-            btnGuestDelete.Size = new Size(108, 24);
+            btnGuestDelete.Size = new Size(136, 24);
             btnGuestDelete.TabIndex = 12;
             btnGuestDelete.Text = "Misafir Sil";
             btnGuestDelete.UseVisualStyleBackColor = true;
@@ -515,7 +515,7 @@
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(911, 469);
+            ClientSize = new Size(1536, 668);
             Controls.Add(dgwBooking);
             Controls.Add(btnBookingUpdate);
             Controls.Add(btnBookingDelete);
