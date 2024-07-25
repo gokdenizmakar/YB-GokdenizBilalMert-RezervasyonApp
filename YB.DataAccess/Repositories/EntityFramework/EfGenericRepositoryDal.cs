@@ -44,7 +44,7 @@ namespace YB.DataAccess.Repositories.EntityFramework
             return dbset.ToList() ?? throw new Exception("Veri bulunamadı!");
         }
 
-        public IQueryable<T> GetAllQueryable(Expression<Func<T, bool>> filter)
+        public IQueryable<T> GetAllQueryable(Expression<Func<T, bool>> filter=null)
         {
             return filter == null ? dbset : dbset.Where(filter) ?? throw new Exception("Veri bulunamadı!");
         }

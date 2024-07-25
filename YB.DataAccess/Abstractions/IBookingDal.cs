@@ -13,5 +13,6 @@ namespace YB.DataAccess.Abstractions
         public IEnumerable<object> GetRoomByVisible(byte roomCapacity22,DateOnly checkin,DateOnly checkout, Guid hotelid);
 
         IEnumerable<object> GetAllBookingAllDetail();
+        IEnumerable<object> GetAllBookingAndGuest(Guid bookingid);
     }
 }

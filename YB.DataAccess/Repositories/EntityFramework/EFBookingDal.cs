@@ -28,25 +28,36 @@ namespace YB.DataAccess.Repositories.EntityFramework
 
         public IEnumerable<object> GetAllBookingAllDetail()
         {
-            return context.Bookings.Where(x=>x.IsActive==true && x.IsDeleted== false).Join(context.Rooms,
+            return context.Bookings.Where(x => x.IsActive == true && x.IsDeleted == false && x.CheckinDate >= DateOnly.FromDateTime(DateTime.Now)).Join(context.Rooms,
                       booking => booking.RoomID,
                       room => room.ID,
-                      (booking, room) => new { booking, room }).Select(booking=>new 
+                      (booking, room) => new { booking, room }).Select(booking => new
                       {
-                          BookingID=booking.booking.ID,
-                          CheckIn=booking.booking.CheckinDate,
-                          CheckOut=booking.booking.CheckoutDate,
-                          RoomID=booking.booking.RoomID,
-                          RoomNumber=booking.booking.Room.RoomNumber,
-                          TotalPrice=booking.booking.TotalPrice,
-                         Guests=booking.booking.Guests
-                      }).ToList(); 
+                          BookingID = booking.booking.ID,
+                          CheckIn = booking.booking.CheckinDate,
+                          CheckOut = booking.booking.CheckoutDate,
+                          RoomID = booking.booking.RoomID,
+                          RoomNumber = booking.booking.Room.RoomNumber,
+                          TotalPrice = booking.booking.TotalPrice,
+                          Guests = booking.booking.Guests
+                      }).ToList();
         }
+
+        public IEnumerable<object> GetAllBookingAndGuest()
+        {
+            return context.Bookings.Include(x => x.Guests).ToList();
+        }
+
+        public IEnumerable<object> GetAllBookingAndGuest(Guid bookingid)
+        {
+            throw new NotImplementedException();
+        }
+
 
         public IEnumerable<object> GetRoomByVisible(byte roomCapacity22, DateOnly checkin, DateOnly checkout, Guid hotelid)
         {
             // booking, room, roomtype ilişkili data çekildi.
-            var list = context.Bookings.Where(x=>x.IsActive==true && x.IsDeleted==false)
+            var list = context.Bookings.Where(x => x.IsActive == true && x.IsDeleted == false)
                 .Join(context.Rooms,
                       booking => booking.RoomID,
                       room => room.ID,
@@ -68,13 +79,13 @@ namespace YB.DataAccess.Repositories.EntityFramework
                       room => room.RoomTypeID,
                       roomType => roomType.ID,
                       (room, roomType) => new { room, roomType })
-                .Where(x =>x.room.HotelID==hotelid && !idList.Contains(x.room.ID) && x.roomType.Capacity >= roomCapacity22).Select(room => new
+                .Where(x => x.room.HotelID == hotelid && !idList.Contains(x.room.ID) && x.roomType.Capacity >= roomCapacity22).Select(room => new
                 {
                     RoomTypeID = room.roomType.ID,
                     Name = room.roomType.Name,
                     RoomID = room.room.ID,
-                    RoomNumber=room.room.RoomNumber,
-                    Price=room.room.PricePerNight
+                    RoomNumber = room.room.RoomNumber,
+                    Price = room.room.PricePerNight
                 })
                 .ToList() ?? throw new Exception("Uygun oda bulunamadı!");
         }

@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,6 +88,23 @@ namespace YB.Business.Services
         {
             return bookingdal.GetAllBookingAllDetail() ?? throw new Exception("Kayıtlı rezervasyon bulunamadı!");
         }
+
+
+
+
+
+        public IQueryable<Booking> GetAllBookingQueryable(Guid bookingid)
+        {
+            return bookingdal.GetAllQueryable(x => x.ID == bookingid).Include(x=>x.Guests).Include(x=>x.Room);
+        }
+
+
+
+
+
+
+
+
 
         public IQueryable<Booking> GetAllQueryable(Expression<Func<Booking, bool>> filter)
         {

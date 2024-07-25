@@ -15,11 +15,11 @@ namespace YB.Business.Validator
 
             RuleFor(b => b.TotalPrice).InclusiveBetween((double)0, (double)99999999.99).WithMessage("Geçersiz ücret aralığı!");
     
-            RuleFor(x => x.CheckinDate).GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.Now)).WithMessage("Rezervasyon tarihi en erken bugün olabilir!");
+            //RuleFor(x => x.CheckinDate).GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.Now)).WithMessage("Rezervasyon tarihi en erken bugün olabilir!");
             
-            RuleFor(x => new { x.CheckinDate, x.CheckoutDate })
-            .Must(dates => dates.CheckinDate < dates.CheckoutDate)
-            .WithMessage("Rezervasyon başlangıç tarihi, bitiş tarihinden önce olmalıdır!");
+            //RuleFor(x => new { x.CheckinDate, x.CheckoutDate })
+            //.Must(dates => dates.CheckinDate < dates.CheckoutDate)
+            //.WithMessage("Rezervasyon başlangıç tarihi, bitiş tarihinden önce olmalıdır!");
         }
     }
 }

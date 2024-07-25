@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -56,12 +57,7 @@ namespace YB.UI.Forms
 
         private void FillDataGrid()
         {
-            //var bookings = bookingService.GetAllBookingAllDetail();
-            //foreach (var item in bookings)
-            //{
-            //    dynamic booking = item;
-            //    Guid bookingid=booking.BookingID;
-            //}
+            dgwBooking.DataSource = null;
             dgwBooking.DataSource = bookingService.GetAllBookingAllDetail();
         }
 
@@ -97,10 +93,13 @@ namespace YB.UI.Forms
 
                 if (nmrGuest.Value > 0 && seciliHotelid == default(Guid))
                 {
-                    MessageBox.Show("Lütfen hotel seçiniz!");
-                    nmrGuest.Value = 0;
-                    grpMusteri.Enabled = false;
-                    ClearGuestGroup();
+                    if (boolupdateBooking != true)
+                    {
+                        MessageBox.Show("Lütfen hotel seçiniz!");
+                        nmrGuest.Value = 0;
+                        grpMusteri.Enabled = false;
+                        ClearGuestGroup();
+                    }
                 }
                 FillRoomAndRoomType();
                 if (cmbRoom.SelectedValue == null)
@@ -126,12 +125,20 @@ namespace YB.UI.Forms
                 {
                     maxindex = Convert.ToInt32(nmrGuest.Value);
                     grpMusteri.Enabled = true;
+                    lstGuest.DataSource = null;
+                    lstGuest.ValueMember = "ID";
+                    lstGuest.DisplayMember = "FullName";
+                    lstGuest.DataSource = guest;
                 }
 
                 if (nmrGuest.Value > lstGuest.Items.Count)
                 {
                     maxindex = Convert.ToInt32(nmrGuest.Value);
                     grpMusteri.Enabled = true;
+                    lstGuest.DataSource = null;
+                    lstGuest.ValueMember = "ID";
+                    lstGuest.DisplayMember = "FullName";
+                    lstGuest.DataSource = guest;
                 }
             }
             catch (Exception ex)
@@ -147,7 +154,7 @@ namespace YB.UI.Forms
                 if (nmrGuest.Value > 0 && seciliHotelid != default(Guid))
                 {
                     var uygunRooms = bookingService.GetRoomByVisible((byte)nmrGuest.Value, DateOnly.FromDateTime(dtpCheckIn.Value), DateOnly.FromDateTime(dtpCheckOut.Value), seciliHotelid).ToList();
-                    if (uygunRooms.Count == 0 )
+                    if (uygunRooms.Count == 0)
                     {
                         cmbRoom.Text = "";
                         cmbRoomType.Text = "";
@@ -173,7 +180,7 @@ namespace YB.UI.Forms
             {
                 if (selectedindex != -1)
                 {
-                    lstGuest.Items[selectedindex] = new Guest
+                    guest[selectedindex] = new Guest
                     {
                         Address = rtxtAdress.Text,
                         DateOfBirth = DateOnly.FromDateTime(dtpBirthDate.Value),
@@ -181,17 +188,21 @@ namespace YB.UI.Forms
                         FirstName = txtMusteriAd.Text,
                         LastName = txtMusteriSoyad.Text,
                         Phone = mskPhone.Text,
-                        TC = mskTC.Text,
+                        TC = mskTC.Text
                     };
+                    //lstGuest.Items[selectedindex] = guest[selectedindex];
                     lstGuest.SelectedIndex = -1;
                     selectedindex = -1;
-                    grpHotelList.Enabled = true;
                     grpBooking.Enabled = true;
                     btnBookingUpdate.Enabled = true;
                     btnBookingDelete.Enabled = true;
                     btnGuestUpdate.Enabled = true;
                     btnGuestDelete.Enabled = true;
                     updatingGuest = null;
+                    lstGuest.DataSource = null;
+                    lstGuest.ValueMember = "ID";
+                    lstGuest.DisplayMember = "FullName";
+                    lstGuest.DataSource = guest;
                     if (nmrGuest.Value == lstGuest.Items.Count)
                     {
                         grpMusteri.Enabled = false;
@@ -217,9 +228,11 @@ namespace YB.UI.Forms
                         Phone = mskPhone.Text,
                         TC = mskTC.Text,
                     };
+                    lstGuest.DataSource = null;
                     lstGuest.ValueMember = "ID";
                     lstGuest.DisplayMember = "FullName";
-                    lstGuest.Items.Add(guest[nowindex]);
+                    lstGuest.DataSource = guest;
+                    //lstGuest.Items.Add(guest[nowindex]);
                     nowindex++;
                     if (nowindex == maxindex || nmrGuest.Value == lstGuest.Items.Count)
                     {
@@ -286,10 +299,18 @@ namespace YB.UI.Forms
         {
             try
             {
-                var uygunodalar = roomService.GetAll().Where(x => x.RoomTypeID == (Guid)cmbRoomType.SelectedValue && x.HotelID == seciliHotelid).ToList();
-                cmbRoom.DataSource = uygunodalar;
-                cmbRoom.DisplayMember = "RoomNumber";
-                cmbRoom.ValueMember = "ID";
+                List<Room> uygunodalar = null;
+                if (cmbRoomType.SelectedIndex != -1)
+                {
+                    uygunodalar = roomService.GetAll().Where(x => x.RoomTypeID == (Guid)cmbRoomType.SelectedValue && x.HotelID == seciliHotelid).ToList();
+                }
+                if (uygunodalar != null)
+                {
+                    cmbRoom.DataSource = uygunodalar;
+                    cmbRoom.DisplayMember = "RoomNumber";
+                    cmbRoom.ValueMember = "ID";
+
+                }
             }
             catch (Exception ex)
             {
@@ -346,32 +367,89 @@ namespace YB.UI.Forms
         private void cmbRoom_SelectedIndexChanged(object sender, EventArgs e)
         {
             var room = (Room)cmbRoom.SelectedItem;
-            lblTotalPrice.Text = room.PricePerNight * (dtpCheckOut.Value - dtpCheckIn.Value).Days + " TL";
-            if (room != null) lblTotalPrice.Visible = true;
+            if (room != null)
+            {
+
+                lblTotalPrice.Text = room.PricePerNight * (dtpCheckOut.Value - dtpCheckIn.Value).Days + " TL";
+            }
+            if (room == null) lblTotalPrice.Visible = true;
         }
 
         private void btnBookingSave_Click(object sender, EventArgs e)
         {
             try
             {
-                var bookingroom = (Room)cmbRoom.SelectedItem;
-                Booking booking = new Booking()
+                if (boolupdateBooking == true)
                 {
-                    CheckinDate = DateOnly.FromDateTime(dtpCheckIn.Value),
-                    CheckoutDate = DateOnly.FromDateTime(dtpCheckOut.Value),
-                    Guests = guest,
-                    TotalPrice = bookingroom.PricePerNight * (dtpCheckOut.Value - dtpCheckIn.Value).Days,
-                    RoomID = bookingroom.ID,
-                };
-                bookingService.Add(booking);
-                ClearGuestGroup();
-                seciliHotelid = default(Guid);
-                dtpCheckIn.Value=DateTime.Now;
-                dtpCheckOut.Value = DateTime.Now.AddDays(1);
-                cmbRoom.Items.Clear();
-                cmbRoomType.Items.Clear();
-                nmrGuest.Value = 0;
-                FillDataGrid();
+                    updateBooking.IsActive = true;
+
+                    updateBooking.CheckinDate = DateOnly.FromDateTime(dtpCheckIn.Value);
+                    updateBooking.CheckoutDate = DateOnly.FromDateTime(dtpCheckOut.Value);
+
+                    updateBooking.Guests = guest;
+
+                    Room updatebookingroom = (Room)cmbRoom.SelectedItem;
+
+                    updateBooking.TotalPrice = updatebookingroom.PricePerNight * (dtpCheckOut.Value - dtpCheckIn.Value).Days;
+
+                    updateBooking.RoomID = updatebookingroom.ID;
+                    bookingService.Update(updateBooking);
+
+                    boolupdateBooking = false;
+                    grpHotelList.Enabled = true;
+
+                    ClearGuestGroup();
+
+                    lstGuest.DataSource = null;
+                    guest = new List<Guest>();
+                    nmrGuest.Value = 0;
+                    lstGuest.ValueMember = "ID";
+                    lstGuest.DisplayMember = "FullName";
+                    lstGuest.DataSource = guest;
+                    seciliHotelid = default(Guid);
+                    cmbRoom.DataSource = null;
+                    cmbRoomType.DataSource = null;
+
+
+                    lblTotalPrice.Text = "";
+
+                    dtpCheckIn.Value = DateTime.Now;
+                    dtpCheckOut.Value = DateTime.Now.AddDays(1);
+                    btnBookingDelete.Enabled = true;
+                    btnBookingUpdate.Enabled = true;
+                    FillDataGrid();
+
+                }
+                else
+                {
+                    var bookingroom = (Room)cmbRoom.SelectedItem;
+                    Booking booking = new Booking()
+                    {
+                        CheckinDate = DateOnly.FromDateTime(dtpCheckIn.Value),
+                        CheckoutDate = DateOnly.FromDateTime(dtpCheckOut.Value),
+                        Guests = guest,
+                        TotalPrice = bookingroom.PricePerNight * (dtpCheckOut.Value - dtpCheckIn.Value).Days,
+                        RoomID = bookingroom.ID,
+                    };
+                    bookingService.Add(booking);
+
+                    ClearGuestGroup();
+                    guest = new List<Guest>();
+                    lstGuest.DataSource = null;
+                    lstGuest.ValueMember = "ID";
+                    lstGuest.DisplayMember = "FullName";
+                    lstGuest.DataSource = guest;
+                    cmbRoom.DataSource = null;
+                    cmbRoomType.DataSource = null;
+                    nmrGuest.Value = 0;
+                    seciliHotelid = default(Guid);
+
+                    dtpCheckIn.Value = DateTime.Now;
+                    dtpCheckOut.Value = DateTime.Now.AddDays(1);
+                    FillDataGrid();
+                    //cmbRoom.DataSource=null;
+                    //cmbRoomType.DataSource = null;
+                }
             }
             catch (Exception ex)
             {
@@ -381,8 +459,83 @@ namespace YB.UI.Forms
 
         private void btnBookingDelete_Click(object sender, EventArgs e)
         {
-           bookingService.Delete((Guid)dgwBooking.CurrentRow.Cells["BookingID"].Value);
-            FillDataGrid();   
+            try
+            {
+
+                Guid deletedID = (Guid)dgwBooking.CurrentRow.Cells["BookingID"].Value;
+                if (deletedID == default(Guid))
+                {
+                    throw new Exception("Silinecek rezervasyon seçiniz!");
+                }
+                bookingService.Delete(deletedID);
+                FillDataGrid();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        bool boolupdateBooking = false;
+        Booking updateBooking;
+        private void btnBookingUpdate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Guid updatingID = (Guid)dgwBooking.CurrentRow.Cells["BookingID"].Value;
+                if (updatingID == default(Guid))
+                {
+                    throw new Exception("Güncellenecek rezervasyon seçiniz!");
+                }
+                lstGuest.DataSource = null;
+                //nmrGuest.Value = 0;
+                boolupdateBooking = true;
+
+                var a = bookingService.GetAllBookingQueryable(updatingID);
+                updateBooking = a.FirstOrDefault(x => x.ID == updatingID);
+
+                updateBooking.IsActive = false;
+                bookingService.Update(updateBooking);
+                dtpCheckIn.Value = DateTime.Parse(updateBooking.CheckinDate.ToString());
+                dtpCheckOut.Value = DateTime.Parse(updateBooking.CheckoutDate.ToString());
+
+               
+
+              
+
+                maxindex = updateBooking.Guests.Count();
+                nmrGuest.Value = maxindex;
+
+
+                List<Guest> newguest = new List<Guest>();
+                guest = newguest;
+                nowindex = 0;
+                foreach (var item in updateBooking.Guests.ToList())
+                {
+                    guest.Add((Guest)item);
+                    nowindex++;
+                }
+                maxindex = nowindex;
+
+                lstGuest.DataSource = null;
+                lstGuest.DisplayMember = "FullName";
+                lstGuest.ValueMember = "ID";
+
+
+                seciliHotelid = roomService.GetByID(updateBooking.RoomID).HotelID;
+                lstGuest.DataSource = guest.ToList();
+
+
+
+                lblTotalPrice.Text = updateBooking.TotalPrice.ToString();
+                grpHotelList.Enabled = false;
+                ClearGuestGroup();
+                btnBookingUpdate.Enabled = false;
+                btnBookingDelete.Enabled = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

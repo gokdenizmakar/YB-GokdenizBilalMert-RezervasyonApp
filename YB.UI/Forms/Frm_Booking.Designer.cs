@@ -491,6 +491,7 @@
             btnBookingUpdate.TabIndex = 15;
             btnBookingUpdate.Text = "Rezervasyon Güncelle";
             btnBookingUpdate.UseVisualStyleBackColor = true;
+            btnBookingUpdate.Click += btnBookingUpdate_Click;
             // 
             // btnBookingDelete
             // 
