@@ -319,6 +319,7 @@
             cmbRoom.Name = "cmbRoom";
             cmbRoom.Size = new Size(121, 28);
             cmbRoom.TabIndex = 12;
+            cmbRoom.SelectedIndexChanged += cmbRoom_SelectedIndexChanged;
             // 
             // label15
             // 
@@ -339,6 +340,7 @@
             btnBookingSave.TabIndex = 10;
             btnBookingSave.Text = "Rezervasyonu Kaydet";
             btnBookingSave.UseVisualStyleBackColor = true;
+            btnBookingSave.Click += btnBookingSave_Click;
             // 
             // lblTotalPrice
             // 

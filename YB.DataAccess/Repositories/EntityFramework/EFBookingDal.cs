@@ -26,6 +26,23 @@ namespace YB.DataAccess.Repositories.EntityFramework
             context.SaveChanges();
         }
 
+        public IEnumerable<object> GetAllBookingAllDetail()
+        {
+            return context.Bookings.Where(x=>x.IsActive==true && x.IsDeleted== false).Join(context.Rooms,
+                      booking => booking.RoomID,
+                      room => room.ID,
+                      (booking, room) => new { booking, room }).Select(booking=>new 
+                      {
+                          BookingID=booking.booking.ID,
+                          CheckIn=booking.booking.CheckinDate,
+                          CheckOut=booking.booking.CheckoutDate,
+                          RoomID=booking.booking.RoomID,
+                          RoomNumber=booking.booking.Room.RoomNumber,
+                          TotalPrice=booking.booking.TotalPrice,
+                         Guests=booking.booking.Guests
+                      }).ToList(); 
+        }
+
         public IEnumerable<object> GetRoomByVisible(byte roomCapacity22, DateOnly checkin, DateOnly checkout, Guid hotelid)
         {
             // booking, room, roomtype ilişkili data çekildi.

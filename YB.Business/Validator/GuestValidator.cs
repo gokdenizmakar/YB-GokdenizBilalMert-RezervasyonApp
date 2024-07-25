@@ -24,8 +24,8 @@ namespace YB.Business.Validator
             RuleFor(h => h.Address).NotEmpty().WithMessage("Adres alanı boş geçilemez!")
                 .MaximumLength(255).WithMessage("Adres alanı en fazla 255 karakter olabilir!");
 
-            RuleFor(h => h.Phone).NotEmpty().WithMessage("Telefon numarası alanı boş geçilemez!")
-                .Length(11).WithMessage("Telefon numarası 11 karakter olmalıdır!");
+            //RuleFor(h => h.Phone).NotEmpty().WithMessage("Telefon numarası alanı boş geçilemez!")
+               // .Length(15).WithMessage("Telefon numarası 11 karakter olmalıdır!");
 
             RuleFor(h => h.Email)
                  .NotEmpty().WithMessage("E-posta adresi boş olamaz!")

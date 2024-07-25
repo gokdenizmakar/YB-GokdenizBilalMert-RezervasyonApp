@@ -25,13 +25,24 @@ namespace YB.Business.Services
         }
         public void Add(Booking entity)
         {
-            //BookingValidator bVal = new BookingValidator();
-            //ValidationResult result = bVal.Validate(entity);
-            //if (!result.IsValid)
-            //{
-            //    throw new Exception(string.Join("\n", result.Errors));
-            //}
-            //bookingdal.Add(entity);
+            BookingValidator bVal = new BookingValidator();
+            ValidationResult result = bVal.Validate(entity);
+            if (!result.IsValid)
+            {
+                throw new Exception(string.Join("\n", result.Errors));
+            }
+            var guestList = entity.Guests.ToList();
+
+            guestList.ForEach(guest =>
+            {
+                GuestValidator gVal = new GuestValidator();
+                ValidationResult result = gVal.Validate(guest);
+                if (!result.IsValid)
+                {
+                    throw new Exception(string.Join("\n", result.Errors));
+                }
+            });
+            bookingdal.Add(entity);
         }
 
         public void AddBookingWithGuests(Booking booking, List<Guid> guestIds)
@@ -70,6 +81,11 @@ namespace YB.Business.Services
         public IEnumerable<Booking> GetAll()
         {
             return bookingdal.GetAll().Where(x => x.IsActive == true && x.IsDeleted == false);
+        }
+
+        public IEnumerable<object> GetAllBookingAllDetail()
+        {
+            return bookingdal.GetAllBookingAllDetail() ?? throw new Exception("Kayıtlı rezervasyon bulunamadı!");
         }
 
         public IQueryable<Booking> GetAllQueryable(Expression<Func<Booking, bool>> filter)

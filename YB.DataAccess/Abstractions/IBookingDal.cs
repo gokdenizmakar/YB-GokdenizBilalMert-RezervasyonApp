@@ -11,5 +11,7 @@ namespace YB.DataAccess.Abstractions
     {
         public void AddBookingWithGuests(Booking booking, List<Guid> guestIds);
         public IEnumerable<object> GetRoomByVisible(byte roomCapacity22,DateOnly checkin,DateOnly checkout, Guid hotelid);
+
+        IEnumerable<object> GetAllBookingAllDetail();
     }
 }
