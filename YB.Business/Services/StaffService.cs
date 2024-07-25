@@ -32,13 +32,13 @@ namespace YB.Business.Services
             staffdal.Add(entity);
         }
 
-        public void Delete(Staff entity)
+        public void Delete(Guid id)
         {
-            if (staffdal.IfEntityExists(x => x.ID == entity.ID))
+            if (staffdal.IfEntityExists(x => x.ID == id))
             {
                 throw new Exception("Silinecek hotel bulunamadı!");
             }
-            staffdal.Delete(entity);
+            staffdal.Delete(id);
         }
 
         public Staff Get(Expression<Func<Staff, bool>> filter)

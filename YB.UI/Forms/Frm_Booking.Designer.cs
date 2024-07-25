@@ -501,6 +501,7 @@
             btnBookingDelete.TabIndex = 14;
             btnBookingDelete.Text = "Rezervasyon Sil";
             btnBookingDelete.UseVisualStyleBackColor = true;
+            btnBookingDelete.Click += btnBookingDelete_Click;
             // 
             // dgwBooking
             // 
@@ -519,7 +520,7 @@
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(1536, 668);
+            ClientSize = new Size(1162, 549);
             Controls.Add(dgwBooking);
             Controls.Add(btnBookingUpdate);
             Controls.Add(btnBookingDelete);

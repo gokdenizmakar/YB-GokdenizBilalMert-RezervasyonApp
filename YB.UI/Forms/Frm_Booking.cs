@@ -52,13 +52,16 @@ namespace YB.UI.Forms
             FillHotelList();
 
             FillDataGrid();
-
-            MessageBox.Show(bookingService.GetAllBookingAllDetail().ToString());
-
         }
 
         private void FillDataGrid()
         {
+            //var bookings = bookingService.GetAllBookingAllDetail();
+            //foreach (var item in bookings)
+            //{
+            //    dynamic booking = item;
+            //    Guid bookingid=booking.BookingID;
+            //}
             dgwBooking.DataSource = bookingService.GetAllBookingAllDetail();
         }
 
@@ -143,8 +146,13 @@ namespace YB.UI.Forms
             {
                 if (nmrGuest.Value > 0 && seciliHotelid != default(Guid))
                 {
-                    var uygunRooms = bookingService.GetRoomByVisible((byte)nmrGuest.Value, DateOnly.FromDateTime(dtpCheckIn.Value), DateOnly.FromDateTime(dtpCheckOut.Value), seciliHotelid);
-
+                    var uygunRooms = bookingService.GetRoomByVisible((byte)nmrGuest.Value, DateOnly.FromDateTime(dtpCheckIn.Value), DateOnly.FromDateTime(dtpCheckOut.Value), seciliHotelid).ToList();
+                    if (uygunRooms.Count == 0 )
+                    {
+                        cmbRoom.Text = "";
+                        cmbRoomType.Text = "";
+                        throw new Exception("Uygun oda bulunamadı!");
+                    }
                     cmbRoomType.DisplayMember = "Name";
                     cmbRoomType.ValueMember = "RoomTypeID";
                     cmbRoomType.DataSource = uygunRooms;
@@ -356,12 +364,25 @@ namespace YB.UI.Forms
                     RoomID = bookingroom.ID,
                 };
                 bookingService.Add(booking);
+                ClearGuestGroup();
+                seciliHotelid = default(Guid);
+                dtpCheckIn.Value=DateTime.Now;
+                dtpCheckOut.Value = DateTime.Now.AddDays(1);
+                cmbRoom.Items.Clear();
+                cmbRoomType.Items.Clear();
+                nmrGuest.Value = 0;
                 FillDataGrid();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void btnBookingDelete_Click(object sender, EventArgs e)
+        {
+           bookingService.Delete((Guid)dgwBooking.CurrentRow.Cells["BookingID"].Value);
+            FillDataGrid();   
         }
     }
 }

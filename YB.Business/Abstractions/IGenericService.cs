@@ -12,7 +12,7 @@ namespace YB.Business.Abstractions
     {
         void Add(T entity);
         void Update(T entity);
-        void Delete(T entity);
+        void Delete(Guid id);
         T GetByID(Guid id);
         IEnumerable<T> GetAll();
         T Get(Expression<Func<T, bool>> filter);

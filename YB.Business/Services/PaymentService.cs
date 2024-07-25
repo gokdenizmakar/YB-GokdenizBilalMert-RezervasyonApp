@@ -31,13 +31,13 @@ namespace YB.Business.Services
             paymentdal.Add(entity);
         }
 
-        public void Delete(Payment entity)
+        public void Delete(Guid id)
         {
-            if (paymentdal.IfEntityExists(x => x.ID == entity.ID))
+            if (paymentdal.IfEntityExists(x => x.ID == id))
             {
                 throw new Exception("Silinecek ödeme bulunamadı!");
             }
-            paymentdal.Delete(entity);
+            paymentdal.Delete(id);
         }
 
         public Payment Get(Expression<Func<Payment, bool>> filter)

@@ -31,13 +31,13 @@ namespace YB.Business.Services
             hoteldal.Add(entity);
         }
 
-        public void Delete(Hotel entity)
+        public void Delete(Guid id)
         {
-            if (hoteldal.IfEntityExists(x=>x.ID==entity.ID))
+            if (hoteldal.IfEntityExists(x=>x.ID==id))
             {
                 throw new Exception("Silinecek hotel bulunamadı!");
             }
-            hoteldal.Delete(entity);
+            hoteldal.Delete(id);
         }
 
         public Hotel Get(Expression<Func<Hotel, bool>> filter)

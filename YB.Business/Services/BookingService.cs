@@ -60,13 +60,13 @@ namespace YB.Business.Services
             bookingdal.AddBookingWithGuests(booking, guestIds);
         }
 
-        public void Delete(Booking entity)
+        public void Delete(Guid id)
         {
-            if (bookingdal.IfEntityExists(b => b.ID == entity.ID))
+            if (id== default(Guid))
             {
-                throw new Exception("Silinecek rezervasyon bulunamadı!");
+                throw new Exception("Geçersiz ID!");
             }
-            bookingdal.Delete(entity);
+            bookingdal.Delete(id);
         }
 
         public Booking Get(Expression<Func<Booking, bool>> filter)

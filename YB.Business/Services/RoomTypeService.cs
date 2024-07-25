@@ -34,13 +34,13 @@ namespace YB.Business.Services
             roomTypeDal.Add(entity);
         }
 
-        public void Delete(RoomType entity)
+        public void Delete(Guid id)
         {
-            if (roomTypeDal.IfEntityExists(x => x.ID == entity.ID))
+            if (roomTypeDal.IfEntityExists(x => x.ID == id))
             {
                 throw new Exception("Silinecek oda tipi bulunamadı!");
             }
-            roomTypeDal.Delete(entity);
+            roomTypeDal.Delete(id);
         }
 
         public RoomType Get(Expression<Func<RoomType, bool>> filter)

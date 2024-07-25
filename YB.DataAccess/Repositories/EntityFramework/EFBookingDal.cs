@@ -46,7 +46,7 @@ namespace YB.DataAccess.Repositories.EntityFramework
         public IEnumerable<object> GetRoomByVisible(byte roomCapacity22, DateOnly checkin, DateOnly checkout, Guid hotelid)
         {
             // booking, room, roomtype ilişkili data çekildi.
-            var list = context.Bookings
+            var list = context.Bookings.Where(x=>x.IsActive==true && x.IsDeleted==false)
                 .Join(context.Rooms,
                       booking => booking.RoomID,
                       room => room.ID,
@@ -76,7 +76,7 @@ namespace YB.DataAccess.Repositories.EntityFramework
                     RoomNumber=room.room.RoomNumber,
                     Price=room.room.PricePerNight
                 })
-                .ToList();
+                .ToList() ?? throw new Exception("Uygun oda bulunamadı!");
         }
     }
 }

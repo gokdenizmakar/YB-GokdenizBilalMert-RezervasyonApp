@@ -26,8 +26,9 @@ namespace YB.DataAccess.Repositories.EntityFramework
             context.SaveChanges();
         }
 
-        public void Delete(T entity)
+        public void Delete(Guid id)
         {
+            var entity = GetByID(id);
             entity.IsDeleted = true;
             entity.IsActive = false;
             Update(entity);

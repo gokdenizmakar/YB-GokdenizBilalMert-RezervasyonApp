@@ -34,13 +34,13 @@ namespace YB.Business.Services
             guestdal.Add(entity);
         }
 
-        public void Delete(Guest entity)
+        public void Delete(Guid id)
         {
-            if (guestdal.IfEntityExists(g => g.ID == entity.ID))
+            if (guestdal.IfEntityExists(g => g.ID ==id))
             {
                 throw new Exception("Silinecek misafir bulunamadı!");
             }
-            guestdal.Delete(entity);
+            guestdal.Delete(id);
         }
 
         public Guest Get(Expression<Func<Guest, bool>> filter)
