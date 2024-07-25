@@ -457,6 +457,7 @@
             btnGuestUpdate.TabIndex = 11;
             btnGuestUpdate.Text = "Misafir Güncelle";
             btnGuestUpdate.UseVisualStyleBackColor = true;
+            btnGuestUpdate.Click += btnGuestUpdate_Click;
             // 
             // btnGuestDelete
             // 
@@ -467,6 +468,7 @@
             btnGuestDelete.TabIndex = 12;
             btnGuestDelete.Text = "Misafir Sil";
             btnGuestDelete.UseVisualStyleBackColor = true;
+            btnGuestDelete.Click += btnGuestDelete_Click;
             // 
             // label14
             // 

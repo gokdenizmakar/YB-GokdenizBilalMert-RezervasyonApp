@@ -87,24 +87,49 @@ namespace YB.UI.Forms
                 {
                     MessageBox.Show("Lütfen hotel seçiniz!");
                     nmrGuest.Value = 0;
+                    grpMusteri.Enabled = false;
+                    ClearGuestGroup();
                 }
-                if (lstGuest.Items.Count> Convert.ToInt32(nmrGuest.Value))
+                FillRoomAndRoomType();
+                if (cmbRoom.SelectedValue == null)
+                {
+                    grpMusteri.Enabled = false;
+                    ClearGuestGroup();
+                }
+                //else if (lstGuest.Items.Count == Convert.ToInt32(nmrGuest.Value)) grpMusteri.Enabled = true;
+                if (lstGuest.Items.Count > Convert.ToInt32(nmrGuest.Value))
                 {
                     //Eski değeridne kal!
                     nmrGuest.Value = maxindex;
+                    grpMusteri.Enabled = false;
+                    ClearGuestGroup();
                     throw new Exception("Kayıtlı misafir sayısı, belirtilen misafir sayısından fazla olamaz! Lütfen misafir siliniz!");
+                }
+                else if (lstGuest.Items.Count == Convert.ToInt32(nmrGuest.Value))
+                {
+                    maxindex = Convert.ToInt32(nmrGuest.Value);
+                    grpMusteri.Enabled = false;
+                    ClearGuestGroup();
                 }
                 else
                 {
-                maxindex = Convert.ToInt32(nmrGuest.Value);
+                    maxindex = Convert.ToInt32(nmrGuest.Value);
+                    grpMusteri.Enabled = true;
+                }
+
+                if (nmrGuest.Value > lstGuest.Items.Count)
+                {
+                    maxindex = Convert.ToInt32(nmrGuest.Value);
+                    grpMusteri.Enabled = true;
                 }
                 //eğer index düşürülecekse listbox guest kontrol ettirim misafir sildirt yoksa düşürtme.
 
-                FillRoomAndRoomType();
-                if (cmbRoom.SelectedIndex != -1)
-                {
-                    grpMusteri.Enabled = true;
-                }
+                //    FillRoomAndRoomType();
+                //if (cmbRoom.SelectedValue==null)
+                //{
+                //    grpMusteri.Enabled = false;
+                //}
+                //else if(lstGuest.Items.Count == Convert.ToInt32(nmrGuest.Value)) grpMusteri.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -123,6 +148,7 @@ namespace YB.UI.Forms
                     cmbRoomType.DisplayMember = "Name";
                     cmbRoomType.ValueMember = "RoomTypeID";
                     cmbRoomType.DataSource = uygunRooms;
+                    //cmbRoomType.SelectedIndex = 1;
                 }
                 else
                 {
@@ -137,35 +163,32 @@ namespace YB.UI.Forms
         {
             try
             {
-                if (lstGuest.Items.Count < maxindex)
+
+                while (guest.Count <= nowindex)
                 {
-                    while (guest.Count <= nowindex)
-                    {
-                        guest.Add(new Guest());
-                    }
-                    guest[nowindex] = new Guest
-                    {
-                        Address = rtxtAdress.Text,
-                        DateOfBirth = DateOnly.FromDateTime(dtpBirthDate.Value),
-                        Email = txtMusteriEmail.Text,
-                        FirstName = txtMusteriAd.Text,
-                        LastName = txtMusteriSoyad.Text,
-                        Phone = mskPhone.Text,
-                        TC = mskTC.Text,
-                    };
-                    lstGuest.ValueMember = "ID";
-                    lstGuest.DisplayMember = "FullName";
-                    lstGuest.Items.Add(guest[nowindex]);
-                    nowindex++;
-                    if (nowindex==maxindex || nmrGuest.Value==lstGuest.Items.Count)
-                    {
-                        grpMusteri.Enabled = false;
-                    }
+                    guest.Add(new Guest());
                 }
-                else
+                guest[nowindex] = new Guest
                 {
-                    btnGuestSave.Enabled = false;
+                    Address = rtxtAdress.Text,
+                    DateOfBirth = DateOnly.FromDateTime(dtpBirthDate.Value),
+                    Email = txtMusteriEmail.Text,
+                    FirstName = txtMusteriAd.Text,
+                    LastName = txtMusteriSoyad.Text,
+                    Phone = mskPhone.Text,
+                    TC = mskTC.Text,
+                };
+                lstGuest.ValueMember = "ID";
+                lstGuest.DisplayMember = "FullName";
+                lstGuest.Items.Add(guest[nowindex]);
+                nowindex++;
+                if (nowindex == maxindex || nmrGuest.Value == lstGuest.Items.Count)
+                {
+                    grpMusteri.Enabled = false;
+                    ClearGuestGroup();
                 }
+
+
 
             }
             catch (Exception ex)
@@ -173,6 +196,17 @@ namespace YB.UI.Forms
 
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void ClearGuestGroup()
+        {
+            txtMusteriAd.Text = "";
+            txtMusteriSoyad.Text = "";
+            txtMusteriEmail.Text = "";
+            mskPhone.Text = "";
+            mskTC.Text = "";
+            rtxtAdress.Text = "";
+            dtpBirthDate.Value = DateTime.Now;
         }
 
         private void txtHotelFiltre_TextChanged(object sender, EventArgs e)
@@ -215,6 +249,7 @@ namespace YB.UI.Forms
                 cmbRoom.DataSource = uygunodalar;
                 cmbRoom.DisplayMember = "RoomNumber";
                 cmbRoom.ValueMember = "ID";
+                //cmbRoom.SelectedIndex = 1;
             }
             catch (Exception ex)
             {
@@ -226,6 +261,27 @@ namespace YB.UI.Forms
         private void dtpCheckIn_ValueChanged(object sender, EventArgs e)
         {
             dtpCheckOut.MinDate = dtpCheckIn.Value.AddDays(1);
+        }
+
+        private void btnGuestDelete_Click(object sender, EventArgs e)
+        {
+            if (lstGuest.SelectedIndex != -1)
+            {
+                lstGuest.Items.Remove(lstGuest.SelectedItem);
+            }
+            else MessageBox.Show("Lütfen silinecek misafiri seçiniz!");
+        }
+        bool updatingGuest = false;
+        private void btnGuestUpdate_Click(object sender, EventArgs e)
+        {
+            if (lstGuest.SelectedIndex != -1)
+            {
+                //Güncellemek için verileri group boxa ata
+                grpHotelList.Enabled = false;
+                grpBooking.Enabled = false;
+                txt
+            }
+            else MessageBox.Show("Lütfen güncellenecek misafiri seçiniz!");
         }
     }
 }
