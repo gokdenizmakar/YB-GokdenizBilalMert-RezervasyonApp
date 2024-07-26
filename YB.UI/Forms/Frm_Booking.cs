@@ -328,7 +328,14 @@ namespace YB.UI.Forms
         {
             if (lstGuest.SelectedIndex != -1)
             {
-                lstGuest.Items.Remove(lstGuest.SelectedItem);
+                MessageBox.Show(guest.ToString());
+                Guest deletedGuest = (Guest)lstGuest.SelectedItem;
+                lstGuest.DataSource = null;
+                lstGuest.DisplayMember = "FullName";
+                lstGuest.ValueMember = "ID";
+                Guid deletedGuestID = deletedGuest.ID;
+                guest.Remove(guest.FirstOrDefault(x => x.ID == deletedGuestID));
+                lstGuest.DataSource = guest;
                 if (nmrGuest.Value > lstGuest.Items.Count)
                 {
                     grpMusteri.Enabled = true;
