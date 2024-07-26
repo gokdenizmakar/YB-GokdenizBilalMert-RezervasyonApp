@@ -16,6 +16,6 @@ namespace YB.Business.Abstractions
 
         IQueryable<Booking> GetAllBookingQueryable(Guid bookingid);
 
-        public void UpdateBookingWithGuests(Booking updatedBooking);
+        public void UpdateBookingWithGuests(Booking updatedBooking, List<Guest> deleteguestlist);
     }
 }

@@ -16,7 +16,7 @@ namespace YB.DataAccess.Abstractions
         IEnumerable<object> GetAllBookingAllDetail();
         IEnumerable<object> GetAllBookingAndGuest(Guid bookingid);
 
-        public void UpdateBookingWithGuests(Booking updatedBooking);
+        public void UpdateBookingWithGuests(Booking updatedBooking,List<Guest> deleteguestlist);
         
 
     }

@@ -52,10 +52,8 @@
             cmbRoom = new ComboBox();
             label15 = new Label();
             btnBookingSave = new Button();
-            lblTotalPrice = new Label();
             dtpCheckOut = new DateTimePicker();
             dtpCheckIn = new DateTimePicker();
-            label13 = new Label();
             label12 = new Label();
             label11 = new Label();
             cmbRoomType = new ComboBox();
@@ -81,7 +79,7 @@
             txtHotelFiltre.Location = new Point(6, 44);
             txtHotelFiltre.Margin = new Padding(1);
             txtHotelFiltre.Name = "txtHotelFiltre";
-            txtHotelFiltre.Size = new Size(266, 27);
+            txtHotelFiltre.Size = new Size(266, 23);
             txtHotelFiltre.TabIndex = 0;
             txtHotelFiltre.TextChanged += txtHotelFiltre_TextChanged;
             // 
@@ -91,7 +89,7 @@
             label1.Location = new Point(6, 21);
             label1.Margin = new Padding(1, 0, 1, 0);
             label1.Name = "label1";
-            label1.Size = new Size(89, 20);
+            label1.Size = new Size(68, 15);
             label1.TabIndex = 1;
             label1.Text = "Hotel Filtre:";
             // 
@@ -112,6 +110,7 @@
             // lstHotelList
             // 
             lstHotelList.FormattingEnabled = true;
+            lstHotelList.ItemHeight = 15;
             lstHotelList.Location = new Point(6, 72);
             lstHotelList.Margin = new Padding(1);
             lstHotelList.Name = "lstHotelList";
@@ -137,7 +136,7 @@
             grpMusteri.Controls.Add(label5);
             grpMusteri.Controls.Add(label4);
             grpMusteri.Controls.Add(label2);
-            grpMusteri.Location = new Point(743, 8);
+            grpMusteri.Location = new Point(666, 10);
             grpMusteri.Margin = new Padding(1);
             grpMusteri.Name = "grpMusteri";
             grpMusteri.Padding = new Padding(1);
@@ -162,7 +161,7 @@
             dtpBirthDate.Location = new Point(117, 214);
             dtpBirthDate.Margin = new Padding(1);
             dtpBirthDate.Name = "dtpBirthDate";
-            dtpBirthDate.Size = new Size(255, 27);
+            dtpBirthDate.Size = new Size(255, 23);
             dtpBirthDate.TabIndex = 13;
             // 
             // txtMusteriSoyad
@@ -170,7 +169,7 @@
             txtMusteriSoyad.Location = new Point(117, 48);
             txtMusteriSoyad.Margin = new Padding(1);
             txtMusteriSoyad.Name = "txtMusteriSoyad";
-            txtMusteriSoyad.Size = new Size(255, 27);
+            txtMusteriSoyad.Size = new Size(255, 23);
             txtMusteriSoyad.TabIndex = 7;
             // 
             // label3
@@ -179,7 +178,7 @@
             label3.Location = new Point(56, 49);
             label3.Margin = new Padding(1, 0, 1, 0);
             label3.Name = "label3";
-            label3.Size = new Size(55, 20);
+            label3.Size = new Size(43, 15);
             label3.TabIndex = 1;
             label3.Text = "Soyad:";
             // 
@@ -189,7 +188,7 @@
             label8.Location = new Point(6, 217);
             label8.Margin = new Padding(1, 0, 1, 0);
             label8.Name = "label8";
-            label8.Size = new Size(106, 20);
+            label8.Size = new Size(83, 15);
             label8.TabIndex = 12;
             label8.Text = "Doğum Tarihi:";
             // 
@@ -207,7 +206,7 @@
             txtMusteriEmail.Location = new Point(117, 132);
             txtMusteriEmail.Margin = new Padding(1);
             txtMusteriEmail.Name = "txtMusteriEmail";
-            txtMusteriEmail.Size = new Size(255, 27);
+            txtMusteriEmail.Size = new Size(255, 23);
             txtMusteriEmail.TabIndex = 10;
             // 
             // mskPhone
@@ -216,7 +215,7 @@
             mskPhone.Margin = new Padding(1);
             mskPhone.Mask = "0 (999) 000-0000";
             mskPhone.Name = "mskPhone";
-            mskPhone.Size = new Size(255, 27);
+            mskPhone.Size = new Size(255, 23);
             mskPhone.TabIndex = 9;
             // 
             // mskTC
@@ -225,7 +224,7 @@
             mskTC.Margin = new Padding(1);
             mskTC.Mask = "00000000000";
             mskTC.Name = "mskTC";
-            mskTC.Size = new Size(255, 27);
+            mskTC.Size = new Size(255, 23);
             mskTC.TabIndex = 8;
             mskTC.ValidatingType = typeof(int);
             // 
@@ -234,7 +233,7 @@
             txtMusteriAd.Location = new Point(117, 19);
             txtMusteriAd.Margin = new Padding(1);
             txtMusteriAd.Name = "txtMusteriAd";
-            txtMusteriAd.Size = new Size(255, 27);
+            txtMusteriAd.Size = new Size(255, 23);
             txtMusteriAd.TabIndex = 6;
             // 
             // label7
@@ -243,7 +242,7 @@
             label7.Location = new Point(60, 163);
             label7.Margin = new Padding(1, 0, 1, 0);
             label7.Name = "label7";
-            label7.Size = new Size(52, 20);
+            label7.Size = new Size(40, 15);
             label7.TabIndex = 5;
             label7.Text = "Adres:";
             // 
@@ -253,7 +252,7 @@
             label6.Location = new Point(46, 105);
             label6.Margin = new Padding(1, 0, 1, 0);
             label6.Name = "label6";
-            label6.Size = new Size(63, 20);
+            label6.Size = new Size(49, 15);
             label6.TabIndex = 4;
             label6.Text = "Telefon:";
             // 
@@ -263,7 +262,7 @@
             label5.Location = new Point(46, 134);
             label5.Margin = new Padding(1, 0, 1, 0);
             label5.Name = "label5";
-            label5.Size = new Size(64, 20);
+            label5.Size = new Size(50, 15);
             label5.TabIndex = 3;
             label5.Text = "E-posta:";
             // 
@@ -273,7 +272,7 @@
             label4.Location = new Point(82, 76);
             label4.Margin = new Padding(1, 0, 1, 0);
             label4.Name = "label4";
-            label4.Size = new Size(29, 20);
+            label4.Size = new Size(24, 15);
             label4.TabIndex = 2;
             label4.Text = "TC:";
             // 
@@ -283,7 +282,7 @@
             label2.Location = new Point(80, 21);
             label2.Margin = new Padding(1, 0, 1, 0);
             label2.Name = "label2";
-            label2.Size = new Size(32, 20);
+            label2.Size = new Size(25, 15);
             label2.TabIndex = 0;
             label2.Text = "Ad:";
             // 
@@ -292,10 +291,8 @@
             grpBooking.Controls.Add(cmbRoom);
             grpBooking.Controls.Add(label15);
             grpBooking.Controls.Add(btnBookingSave);
-            grpBooking.Controls.Add(lblTotalPrice);
             grpBooking.Controls.Add(dtpCheckOut);
             grpBooking.Controls.Add(dtpCheckIn);
-            grpBooking.Controls.Add(label13);
             grpBooking.Controls.Add(label12);
             grpBooking.Controls.Add(label11);
             grpBooking.Controls.Add(cmbRoomType);
@@ -306,7 +303,7 @@
             grpBooking.Margin = new Padding(1);
             grpBooking.Name = "grpBooking";
             grpBooking.Padding = new Padding(1);
-            grpBooking.Size = new Size(367, 138);
+            grpBooking.Size = new Size(367, 120);
             grpBooking.TabIndex = 4;
             grpBooking.TabStop = false;
             grpBooking.Text = "Rezervasyon";
@@ -314,90 +311,69 @@
             // cmbRoom
             // 
             cmbRoom.FormattingEnabled = true;
-            cmbRoom.Location = new Point(79, 76);
+            cmbRoom.Location = new Point(94, 76);
             cmbRoom.Margin = new Padding(2, 3, 2, 3);
             cmbRoom.Name = "cmbRoom";
-            cmbRoom.Size = new Size(121, 28);
+            cmbRoom.Size = new Size(121, 23);
             cmbRoom.TabIndex = 12;
             cmbRoom.SelectedIndexChanged += cmbRoom_SelectedIndexChanged;
             // 
             // label15
             // 
             label15.AutoSize = true;
-            label15.Location = new Point(6, 81);
+            label15.Location = new Point(21, 81);
             label15.Margin = new Padding(1, 0, 1, 0);
             label15.Name = "label15";
-            label15.Size = new Size(81, 20);
+            label15.Size = new Size(64, 15);
             label15.TabIndex = 11;
             label15.Text = "Oda Seçin:";
             // 
             // btnBookingSave
             // 
-            btnBookingSave.Location = new Point(107, 103);
+            btnBookingSave.Location = new Point(225, 76);
             btnBookingSave.Margin = new Padding(1);
             btnBookingSave.Name = "btnBookingSave";
-            btnBookingSave.Size = new Size(231, 24);
+            btnBookingSave.Size = new Size(127, 24);
             btnBookingSave.TabIndex = 10;
             btnBookingSave.Text = "Rezervasyonu Kaydet";
             btnBookingSave.UseVisualStyleBackColor = true;
             btnBookingSave.Click += btnBookingSave_Click;
             // 
-            // lblTotalPrice
-            // 
-            lblTotalPrice.AutoSize = true;
-            lblTotalPrice.Location = new Point(308, 84);
-            lblTotalPrice.Margin = new Padding(1, 0, 1, 0);
-            lblTotalPrice.Name = "lblTotalPrice";
-            lblTotalPrice.Size = new Size(57, 20);
-            lblTotalPrice.TabIndex = 9;
-            lblTotalPrice.Text = "label14";
-            lblTotalPrice.Visible = false;
-            // 
             // dtpCheckOut
             // 
-            dtpCheckOut.Location = new Point(253, 18);
+            dtpCheckOut.Location = new Point(268, 18);
             dtpCheckOut.Margin = new Padding(1);
             dtpCheckOut.Name = "dtpCheckOut";
-            dtpCheckOut.Size = new Size(84, 27);
+            dtpCheckOut.Size = new Size(84, 23);
             dtpCheckOut.TabIndex = 8;
             // 
             // dtpCheckIn
             // 
             dtpCheckIn.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            dtpCheckIn.Location = new Point(92, 18);
+            dtpCheckIn.Location = new Point(94, 16);
             dtpCheckIn.Margin = new Padding(1);
             dtpCheckIn.Name = "dtpCheckIn";
-            dtpCheckIn.Size = new Size(78, 27);
+            dtpCheckIn.Size = new Size(78, 23);
             dtpCheckIn.TabIndex = 7;
             dtpCheckIn.ValueChanged += dtpCheckIn_ValueChanged;
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Location = new Point(205, 81);
-            label13.Margin = new Padding(1, 0, 1, 0);
-            label13.Name = "label13";
-            label13.Size = new Size(104, 20);
-            label13.TabIndex = 6;
-            label13.Text = "Toplam Ücret:";
             // 
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(183, 24);
+            label12.Location = new Point(198, 24);
             label12.Margin = new Padding(1, 0, 1, 0);
             label12.Name = "label12";
-            label12.Size = new Size(86, 20);
+            label12.Size = new Size(66, 15);
             label12.TabIndex = 5;
             label12.Text = "Çıkış Tarihi:";
             // 
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(19, 22);
+            label11.Location = new Point(20, 22);
             label11.Margin = new Padding(1, 0, 1, 0);
             label11.Name = "label11";
-            label11.Size = new Size(85, 20);
+            label11.Size = new Size(65, 15);
             label11.TabIndex = 4;
             label11.Text = "Giriş Tarihi:";
             label11.Click += label11_Click;
@@ -405,54 +381,55 @@
             // cmbRoomType
             // 
             cmbRoomType.FormattingEnabled = true;
-            cmbRoomType.Location = new Point(253, 45);
+            cmbRoomType.Location = new Point(268, 45);
             cmbRoomType.Margin = new Padding(1);
             cmbRoomType.Name = "cmbRoomType";
-            cmbRoomType.Size = new Size(84, 28);
+            cmbRoomType.Size = new Size(84, 23);
             cmbRoomType.TabIndex = 3;
             cmbRoomType.SelectedIndexChanged += cmbRoomType_SelectedIndexChanged;
             // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(7, 47);
+            label9.Location = new Point(6, 47);
             label9.Margin = new Padding(1, 0, 1, 0);
             label9.Name = "label9";
-            label9.Size = new Size(102, 20);
+            label9.Size = new Size(79, 15);
             label9.TabIndex = 0;
             label9.Text = "Misafir Sayısı:";
             // 
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(197, 47);
+            label10.Location = new Point(212, 47);
             label10.Margin = new Padding(1, 0, 1, 0);
             label10.Name = "label10";
-            label10.Size = new Size(70, 20);
+            label10.Size = new Size(55, 15);
             label10.TabIndex = 2;
             label10.Text = "Oda Tipi:";
             // 
             // nmrGuest
             // 
-            nmrGuest.Location = new Point(116, 45);
+            nmrGuest.Location = new Point(94, 46);
             nmrGuest.Margin = new Padding(1);
             nmrGuest.Name = "nmrGuest";
-            nmrGuest.Size = new Size(79, 27);
+            nmrGuest.Size = new Size(79, 23);
             nmrGuest.TabIndex = 1;
             nmrGuest.ValueChanged += nmrGuest_ValueChanged;
             // 
             // lstGuest
             // 
             lstGuest.FormattingEnabled = true;
-            lstGuest.Location = new Point(296, 152);
+            lstGuest.ItemHeight = 15;
+            lstGuest.Location = new Point(296, 137);
             lstGuest.Margin = new Padding(1);
             lstGuest.Name = "lstGuest";
-            lstGuest.Size = new Size(366, 64);
+            lstGuest.Size = new Size(366, 79);
             lstGuest.TabIndex = 5;
             // 
             // btnGuestUpdate
             // 
-            btnGuestUpdate.Location = new Point(522, 218);
+            btnGuestUpdate.Location = new Point(495, 218);
             btnGuestUpdate.Margin = new Padding(1);
             btnGuestUpdate.Name = "btnGuestUpdate";
             btnGuestUpdate.Size = new Size(140, 24);
@@ -463,7 +440,7 @@
             // 
             // btnGuestDelete
             // 
-            btnGuestDelete.Location = new Point(384, 218);
+            btnGuestDelete.Location = new Point(317, 218);
             btnGuestDelete.Margin = new Padding(1);
             btnGuestDelete.Name = "btnGuestDelete";
             btnGuestDelete.Size = new Size(136, 24);
@@ -478,7 +455,7 @@
             label14.Location = new Point(297, 241);
             label14.Margin = new Padding(2, 0, 2, 0);
             label14.Name = "label14";
-            label14.Size = new Size(423, 20);
+            label14.Size = new Size(352, 15);
             label14.TabIndex = 13;
             label14.Text = "_____________________________________________________________________";
             // 
@@ -518,10 +495,10 @@
             // 
             // Frm_Booking
             // 
-            AutoScaleDimensions = new SizeF(9F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(1162, 549);
+            ClientSize = new Size(1055, 549);
             Controls.Add(dgwBooking);
             Controls.Add(btnBookingUpdate);
             Controls.Add(btnBookingDelete);
@@ -576,10 +553,8 @@
         private Label label9;
         private ComboBox cmbRoomType;
         private Label label10;
-        private Label lblTotalPrice;
         private DateTimePicker dtpCheckOut;
         private DateTimePicker dtpCheckIn;
-        private Label label13;
         private Label label12;
         private Label label11;
         private Button btnBookingSave;

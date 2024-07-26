@@ -183,8 +183,10 @@ namespace YB.UI.Forms
             {
                 if (selectedindex != -1)
                 {
+                    Guid guncellemeidsi = guest[selectedindex].ID;
                     guest[selectedindex] = new Guest
                     {
+                        ID = guncellemeidsi,
                         Address = rtxtAdress.Text,
                         DateOfBirth = DateOnly.FromDateTime(dtpBirthDate.Value),
                         Email = txtMusteriEmail.Text,
@@ -377,12 +379,6 @@ namespace YB.UI.Forms
         private void cmbRoom_SelectedIndexChanged(object sender, EventArgs e)
         {
             var room = (Room)cmbRoom.SelectedItem;
-            if (room != null)
-            {
-
-                lblTotalPrice.Text = room.PricePerNight * (dtpCheckOut.Value - dtpCheckIn.Value).Days + " TL";
-            }
-            if (room == null) lblTotalPrice.Visible = true;
         }
 
         private void btnBookingSave_Click(object sender, EventArgs e)
@@ -396,7 +392,7 @@ namespace YB.UI.Forms
 
                     updateBooking.CheckinDate = DateOnly.FromDateTime(dtpCheckIn.Value);
                     updateBooking.CheckoutDate = DateOnly.FromDateTime(dtpCheckOut.Value);
-
+                    List<Guest> silinecekguestler=updateBooking.Guests.ToList();
                     updateBooking.Guests = guest;
 
 
@@ -406,7 +402,7 @@ namespace YB.UI.Forms
                     updateBooking.TotalPrice = updatebookingroom.PricePerNight * (dtpCheckOut.Value - dtpCheckIn.Value).Days;
 
                     updateBooking.RoomID = updatebookingroom.ID;
-                    bookingService.UpdateBookingWithGuests(updateBooking);
+                    bookingService.UpdateBookingWithGuests(updateBooking,silinecekguestler);
 
                     boolupdateBooking = false;
                     grpHotelList.Enabled = true;
@@ -423,8 +419,6 @@ namespace YB.UI.Forms
                     cmbRoom.DataSource = null;
                     cmbRoomType.DataSource = null;
 
-
-                    lblTotalPrice.Text = "";
 
                     dtpCheckIn.Value = DateTime.Now;
                     dtpCheckOut.Value = DateTime.Now.AddDays(1);
@@ -453,6 +447,7 @@ namespace YB.UI.Forms
                         RoomID = bookingroom.ID,
                     };
                     bookingService.Add(booking);
+                    MessageBox.Show("Rezervasyon Başlangıç:"+booking.CheckinDate+"\nRezervasyon Bitiş:"+booking.CheckoutDate+"\nOda Numarası:"+bookingroom.RoomNumber+"\nToplam Ücret:"+booking.TotalPrice+" TL");
 
                     ClearGuestGroup();
                     guest = new List<Guest>();
@@ -552,9 +547,6 @@ namespace YB.UI.Forms
                 seciliHotelid = roomService.GetByID(updateBooking.RoomID).HotelID;
                 lstGuest.DataSource = guest.ToList();
 
-
-
-                lblTotalPrice.Text = updateBooking.TotalPrice.ToString();
                 grpHotelList.Enabled = false;
                 ClearGuestGroup();
                 btnBookingUpdate.Enabled = false;

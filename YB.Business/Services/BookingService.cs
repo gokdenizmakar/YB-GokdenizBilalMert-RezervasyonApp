@@ -156,7 +156,7 @@ namespace YB.Business.Services
             bookingdal.Update(entity);
         }
 
-        public void UpdateBookingWithGuests(Booking updatedBooking)
+        public void UpdateBookingWithGuests(Booking updatedBooking, List<Guest> deleteguestlist)
         {
             BookingValidator bVal = new BookingValidator();
             ValidationResult result = bVal.Validate(updatedBooking);
@@ -164,8 +164,17 @@ namespace YB.Business.Services
             {
                 throw new Exception(string.Join("\n", result.Errors));
             }
+            deleteguestlist.ForEach(guest =>
+            {
+                GuestValidator gVal = new GuestValidator();
+                ValidationResult result = gVal.Validate(guest);
+                if (!result.IsValid)
+                {
+                    throw new Exception(string.Join("\n", result.Errors));
+                }
+            });
 
-            bookingdal.UpdateBookingWithGuests(updatedBooking);
+            bookingdal.UpdateBookingWithGuests(updatedBooking,deleteguestlist);
         }
     }
 }
