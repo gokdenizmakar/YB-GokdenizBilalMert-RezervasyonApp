@@ -155,5 +155,17 @@ namespace YB.Business.Services
 
             bookingdal.Update(entity);
         }
+
+        public void UpdateBookingWithGuests(Booking updatedBooking)
+        {
+            BookingValidator bVal = new BookingValidator();
+            ValidationResult result = bVal.Validate(updatedBooking);
+            if (!result.IsValid)
+            {
+                throw new Exception(string.Join("\n", result.Errors));
+            }
+
+            bookingdal.UpdateBookingWithGuests(updatedBooking);
+        }
     }
 }

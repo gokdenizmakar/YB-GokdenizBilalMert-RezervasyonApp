@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,5 +15,9 @@ namespace YB.DataAccess.Abstractions
 
         IEnumerable<object> GetAllBookingAllDetail();
         IEnumerable<object> GetAllBookingAndGuest(Guid bookingid);
+
+        public void UpdateBookingWithGuests(Booking updatedBooking);
+        
+
     }
 }

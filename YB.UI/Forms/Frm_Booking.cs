@@ -91,49 +91,52 @@ namespace YB.UI.Forms
             try
             {
 
+                // Misafir sayısının sıfırdan büyük ve hotel seçilmediği durumda
                 if (nmrGuest.Value > 0 && seciliHotelid == default(Guid))
                 {
-                    if (boolupdateBooking != true)
+                    if (!boolupdateBooking)
                     {
-                        MessageBox.Show("Lütfen hotel seçiniz!");
+                        // Misafir sayısını sıfırla ve grup panelini devre dışı bırak
                         nmrGuest.Value = 0;
                         grpMusteri.Enabled = false;
                         ClearGuestGroup();
+                        throw new Exception("Lütfen hotel seçiniz!");
                     }
                 }
+
+                // Oda ve oda türlerini doldur
                 FillRoomAndRoomType();
+
+                // Oda seçilmemişse grup panelini devre dışı bırak ve temizle
                 if (cmbRoom.SelectedValue == null)
                 {
                     grpMusteri.Enabled = false;
                     ClearGuestGroup();
                 }
-                if (lstGuest.Items.Count > Convert.ToInt32(nmrGuest.Value))
+
+                // Misafir sayısını kontrol et
+                int newGuestCount = Convert.ToInt32(nmrGuest.Value);
+                int currentGuestCount = lstGuest.Items.Count;
+
+                if (currentGuestCount > newGuestCount)
                 {
-                    //Eski değeridne kal!
+                    // Misafir sayısı mevcut olandan fazla olamaz
                     nmrGuest.Value = maxindex;
                     grpMusteri.Enabled = false;
                     ClearGuestGroup();
                     throw new Exception("Kayıtlı misafir sayısı, belirtilen misafir sayısından fazla olamaz! Lütfen misafir siliniz!");
                 }
-                else if (lstGuest.Items.Count == Convert.ToInt32(nmrGuest.Value))
+                else if (currentGuestCount == newGuestCount)
                 {
-                    maxindex = Convert.ToInt32(nmrGuest.Value);
+                    // Misafir sayısı eşitse, paneli devre dışı bırak ve temizle
+                    maxindex = newGuestCount;
                     grpMusteri.Enabled = false;
                     ClearGuestGroup();
                 }
                 else
                 {
-                    maxindex = Convert.ToInt32(nmrGuest.Value);
-                    grpMusteri.Enabled = true;
-                    lstGuest.DataSource = null;
-                    lstGuest.ValueMember = "ID";
-                    lstGuest.DisplayMember = "FullName";
-                    lstGuest.DataSource = guest;
-                }
-
-                if (nmrGuest.Value > lstGuest.Items.Count)
-                {
-                    maxindex = Convert.ToInt32(nmrGuest.Value);
+                    // Misafir sayısı arttıysa, paneli etkinleştir ve veriyi yenile
+                    maxindex = newGuestCount;
                     grpMusteri.Enabled = true;
                     lstGuest.DataSource = null;
                     lstGuest.ValueMember = "ID";
@@ -388,6 +391,7 @@ namespace YB.UI.Forms
             {
                 if (boolupdateBooking == true)
                 {
+                    if (cmbRoom.SelectedValue == null) throw new Exception("Lütfen oda seçiniz!");
                     updateBooking.IsActive = true;
 
                     updateBooking.CheckinDate = DateOnly.FromDateTime(dtpCheckIn.Value);
@@ -395,12 +399,14 @@ namespace YB.UI.Forms
 
                     updateBooking.Guests = guest;
 
-                    Room updatebookingroom = (Room)cmbRoom.SelectedItem;
+
+
+                    Room updatebookingroom = roomService.GetByID((Guid)cmbRoom.SelectedValue);
 
                     updateBooking.TotalPrice = updatebookingroom.PricePerNight * (dtpCheckOut.Value - dtpCheckIn.Value).Days;
 
                     updateBooking.RoomID = updatebookingroom.ID;
-                    bookingService.Update(updateBooking);
+                    bookingService.UpdateBookingWithGuests(updateBooking);
 
                     boolupdateBooking = false;
                     grpHotelList.Enabled = true;
@@ -429,6 +435,14 @@ namespace YB.UI.Forms
                 }
                 else
                 {
+                    if (cmbRoom.SelectedIndex==-1)
+                    {
+                        throw new Exception("Oda seçilmedi! Lütfen uygun bir ode seçiniz. Uygun bir oda yoksa rezervasyon tercihlerinizi değiştiriniz.");
+                    }
+                    else if (nmrGuest.Value!=lstGuest.Items.Count)
+                    {
+                        throw new Exception("Misafir listesinedeki misafir sayısı ile belirtilen misafir sayısı eşleşmemektedir!");
+                    }
                     var bookingroom = (Room)cmbRoom.SelectedItem;
                     Booking booking = new Booking()
                     {
@@ -468,7 +482,10 @@ namespace YB.UI.Forms
         {
             try
             {
-
+                if (dgwBooking.Rows.Count == 0)
+                {
+                    throw new Exception("Silinecek rezervasyon yok! Lütfen rezervasyon seçiniz!");
+                }
                 Guid deletedID = (Guid)dgwBooking.CurrentRow.Cells["BookingID"].Value;
                 if (deletedID == default(Guid))
                 {
@@ -488,6 +505,10 @@ namespace YB.UI.Forms
         {
             try
             {
+                if (dgwBooking.Rows.Count == 0)
+                {
+                    throw new Exception("Güncellenecek rezervasyon yok! Lütfen rezervasyon seçiniz!");
+                }
                 Guid updatingID = (Guid)dgwBooking.CurrentRow.Cells["BookingID"].Value;
                 if (updatingID == default(Guid))
                 {
@@ -538,6 +559,10 @@ namespace YB.UI.Forms
                 ClearGuestGroup();
                 btnBookingUpdate.Enabled = false;
                 btnBookingDelete.Enabled = false;
+                if (nmrGuest.Value==lstGuest.Items.Count)
+                {
+                    grpMusteri.Enabled = false;
+                }
             }
             catch (Exception ex)
             {

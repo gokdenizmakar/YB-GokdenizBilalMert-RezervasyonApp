@@ -29,8 +29,8 @@ namespace YB.DataAccess.Context
             //Mert dbcontext
             //optionsBuilder.UseSqlServer("Data Source=MERT\\SQLEXPRESS;initial catalog=YBRezervasyonDB;Integrated Security=True;Connect Timeout=30;Encrypt=True; Trust Server Certificate=True;");
 
-            //bll bpc22
-            //optionsBuilder.UseSqlServer("Data Source=BPC22; Initial Catalog=YBRezervasyonDB; Integrated Security=True;Connect Timeout=30;Encrypt=True; Trust Server Certificate=True;");
+            //bll bpc21
+            optionsBuilder.UseSqlServer("Data Source=BPC21; Initial Catalog=YBRezervasyonDB; Integrated Security=True;Connect Timeout=30;Encrypt=True; Trust Server Certificate=True;");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

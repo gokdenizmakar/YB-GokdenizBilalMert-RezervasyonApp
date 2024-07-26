@@ -15,5 +15,7 @@ namespace YB.Business.Abstractions
         //IEnumerable<object> GetAllBookingAndGuest();
 
         IQueryable<Booking> GetAllBookingQueryable(Guid bookingid);
+
+        public void UpdateBookingWithGuests(Booking updatedBooking);
     }
 }

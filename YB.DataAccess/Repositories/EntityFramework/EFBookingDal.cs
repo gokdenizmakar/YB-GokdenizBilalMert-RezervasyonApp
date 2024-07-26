@@ -89,5 +89,57 @@ namespace YB.DataAccess.Repositories.EntityFramework
                 })
                 .ToList() ?? throw new Exception("Uygun oda bulunamadı!");
         }
+
+        public void UpdateBookingWithGuests(Booking updatedBooking)
+        {
+            // Veritabanından mevcut Booking ve ilişkili Guests'i alın
+            var existingBooking = context.Bookings
+                .Include(b => b.Guests)
+                .SingleOrDefault(b => b.ID == updatedBooking.ID);
+
+            if (existingBooking == null)
+            {
+                throw new ArgumentException("Booking not found.");
+            }
+
+            // Ana Booking nesnesini güncelle
+            existingBooking.TotalPrice = updatedBooking.TotalPrice;
+            existingBooking.CheckinDate = updatedBooking.CheckinDate;
+            existingBooking.CheckoutDate = updatedBooking.CheckoutDate;
+            existingBooking.IsActive = updatedBooking.IsActive;
+            existingBooking.IsDeleted = updatedBooking.IsDeleted;
+            existingBooking.RoomID = updatedBooking.RoomID;
+
+
+            // Yeni Guest'leri ekle veya güncelle
+            foreach (var updatedGuest in updatedBooking.Guests)
+            {
+                var existingGuest = context.Guests.Find(updatedGuest.ID);
+                if (existingGuest != null)
+                {
+                    // Guest zaten varsa, gerekli güncellemeleri yapın
+                    context.Entry(existingGuest).CurrentValues.SetValues(updatedGuest);
+                }
+                else
+                {
+                    // Yeni Guest ekleyin
+                    existingBooking.Guests.Add(updatedGuest);
+                }
+            }
+
+            // Mevcut Guests koleksiyonunda olmayanları silin
+            var guestsToRemove = existingBooking.Guests
+                .Where(g => !updatedBooking.Guests.Any(ug => ug.ID== g.ID))
+                .ToList();
+
+            foreach (var guest in guestsToRemove)
+            {
+                existingBooking.Guests.Remove(guest);
+            }
+
+            // Değişiklikleri kaydedin
+            context.SaveChanges();
+        }
+
     }
 }
