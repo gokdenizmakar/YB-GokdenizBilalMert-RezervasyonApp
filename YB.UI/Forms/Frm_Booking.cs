@@ -447,7 +447,9 @@ namespace YB.UI.Forms
                         RoomID = bookingroom.ID,
                     };
                     bookingService.Add(booking);
-                    MessageBox.Show("Rezervasyon Başlangıç:"+booking.CheckinDate+"\nRezervasyon Bitiş:"+booking.CheckoutDate+"\nOda Numarası:"+bookingroom.RoomNumber+"\nToplam Ücret:"+booking.TotalPrice+" TL");
+                    Hotel hotelmis = hotelService.GetByID(bookingroom.HotelID);
+
+                    MessageBox.Show("Hotel Adı:"+hotelmis.Name+"\nRezervasyon Başlangıç:"+booking.CheckinDate+"\nRezervasyon Bitiş:"+booking.CheckoutDate+"\nOda Numarası:"+bookingroom.RoomNumber+"\nToplam Ücret:"+booking.TotalPrice+" TL");
 
                     ClearGuestGroup();
                     guest = new List<Guest>();
@@ -514,6 +516,8 @@ namespace YB.UI.Forms
                 boolupdateBooking = true;
 
                 var a = bookingService.GetAllBookingQueryable(updatingID);
+                
+
                 updateBooking = a.FirstOrDefault(x => x.ID == updatingID);
 
                 updateBooking.IsActive = false;
