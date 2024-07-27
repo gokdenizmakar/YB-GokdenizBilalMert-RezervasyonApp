@@ -1,9 +1,4 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using YB.Entities.Models;
 
 namespace YB.Business.Validator
@@ -12,11 +7,11 @@ namespace YB.Business.Validator
     {
         public PaymentValidator()
         {
-            RuleFor(p=>p.Amount).NotEmpty().WithMessage("Ücret Boş geçilemez!")
+            RuleFor(p => p.Amount).NotEmpty().WithMessage("Ücret Boş geçilemez!")
                 .InclusiveBetween((double)0, (double)99999999.99).WithMessage("Geçersiz ücret aralığı!");
 
             RuleFor(p => p.PaymentMethod).MaximumLength(50).WithMessage("Ödeme yöntemi en fazla 50 karakter olabilir!");
-            
+
         }
     }
 }

@@ -1,9 +1,4 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using YB.Entities.Models;
 
 namespace YB.Business.Validator
@@ -25,7 +20,7 @@ namespace YB.Business.Validator
                 .MaximumLength(255).WithMessage("Adres alanı en fazla 255 karakter olabilir!");
 
             //RuleFor(h => h.Phone).NotEmpty().WithMessage("Telefon numarası alanı boş geçilemez!")
-               // .Length(15).WithMessage("Telefon numarası 11 karakter olmalıdır!");
+            // .Length(15).WithMessage("Telefon numarası 11 karakter olmalıdır!");
 
             RuleFor(h => h.Email)
                  .NotEmpty().WithMessage("E-posta adresi boş olamaz!")

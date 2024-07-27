@@ -1,9 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using YB.DataAccess.Abstractions;
 using YB.DataAccess.Context;
 using YB.Entities.Models;
@@ -90,7 +85,7 @@ namespace YB.DataAccess.Repositories.EntityFramework
                 .ToList() ?? throw new Exception("Uygun oda bulunamadı!");
         }
 
-        public void UpdateBookingWithGuests(Booking updatedBooking,List<Guest> deleteguestlist)
+        public void UpdateBookingWithGuests(Booking updatedBooking, List<Guest> deleteguestlist)
         {
             foreach (var item in deleteguestlist)
             {
@@ -103,7 +98,7 @@ namespace YB.DataAccess.Repositories.EntityFramework
                 List<Booking> asd = new List<Booking>();
                 asd.Add(updatedBooking);
                 item.Bookings = asd;
-                
+
             }
             context.Update(updatedBooking.Guests);
             context.SaveChanges();

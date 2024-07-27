@@ -1,16 +1,10 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using YB.Business.Abstractions;
 using YB.Business.Validator;
 using YB.DataAccess.Abstractions;
-using YB.DataAccess.Repositories.EntityFramework;
 using YB.Entities.Models;
 
 namespace YB.Business.Services
@@ -64,13 +58,13 @@ namespace YB.Business.Services
 
         public IQueryable<Object> GetAllRoomTypeWithHotel(Guid hotelid)
         {
-            return roomTypeDal.GetAllQueryable(x=>x.ID!=null).Include(x=>x.Rooms).ThenInclude(x=>x.Hotel).SelectMany(rt => rt.Rooms.Select(room => new 
+            return roomTypeDal.GetAllQueryable(x => x.ID != null).Include(x => x.Rooms).ThenInclude(x => x.Hotel).SelectMany(rt => rt.Rooms.Select(room => new
             {
                 ID = rt.ID,
                 Name = rt.Name,
                 RoomID = room.ID,
                 HotelID = room.Hotel.ID
-            })).Where(x=>x.HotelID==hotelid); 
+            })).Where(x => x.HotelID == hotelid);
         }
 
         public RoomType GetByID(Guid id)

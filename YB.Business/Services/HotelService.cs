@@ -1,11 +1,5 @@
 ﻿using FluentValidation.Results;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using YB.Business.Abstractions;
 using YB.Business.Validator;
 using YB.DataAccess.Abstractions;
@@ -22,7 +16,7 @@ namespace YB.Business.Services
         }
         public void Add(Hotel entity)
         {
-            HotelValidator hVal= new HotelValidator();
+            HotelValidator hVal = new HotelValidator();
             ValidationResult result = hVal.Validate(entity);
             if (!result.IsValid)
             {
@@ -33,7 +27,7 @@ namespace YB.Business.Services
 
         public void Delete(Guid id)
         {
-            if (hoteldal.IfEntityExists(x=>x.ID==id))
+            if (hoteldal.IfEntityExists(x => x.ID == id))
             {
                 throw new Exception("Silinecek hotel bulunamadı!");
             }
@@ -51,7 +45,7 @@ namespace YB.Business.Services
 
         public IEnumerable<Hotel> GetAll()
         {
-            return hoteldal.GetAll().Where(x=>x.IsActive==true && x.IsDeleted==false);
+            return hoteldal.GetAll().Where(x => x.IsActive == true && x.IsDeleted == false);
         }
 
         public IQueryable<Hotel> GetAllQueryable(Expression<Func<Hotel, bool>> filter)

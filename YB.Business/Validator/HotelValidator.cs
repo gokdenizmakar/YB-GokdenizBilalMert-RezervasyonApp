@@ -1,14 +1,9 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using YB.Entities.Models;
 
 namespace YB.Business.Validator
 {
-    public class HotelValidator:AbstractValidator<Hotel>
+    public class HotelValidator : AbstractValidator<Hotel>
     {
         public HotelValidator()
         {
@@ -25,7 +20,7 @@ namespace YB.Business.Validator
 
             RuleFor(h => h.Email)
                  .NotEmpty().WithMessage("E-posta adresi boş olamaz!")
-                .EmailAddress().WithMessage("Geçersiz e-posta adresi!"); 
+                .EmailAddress().WithMessage("Geçersiz e-posta adresi!");
 
             RuleFor(h => h.Stars).InclusiveBetween((byte)1, (byte)5).WithMessage("Hotel yıldızıen az 1, en fazla 5 olabilir!");
 

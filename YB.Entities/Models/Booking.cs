@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YB.Entities.Abstraction;
+﻿using YB.Entities.Abstraction;
 
 namespace YB.Entities.Models
 {
-    public class Booking:Base
+    public class Booking : Base
     {
         public Room? Room { get; set; }
         public Guid RoomID { get; set; }

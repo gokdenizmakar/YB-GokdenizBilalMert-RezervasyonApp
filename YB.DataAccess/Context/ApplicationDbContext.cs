@@ -1,10 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YB.Entities.Abstraction;
 using YB.Entities.Models;
 
 namespace YB.DataAccess.Context
@@ -165,7 +159,7 @@ namespace YB.DataAccess.Context
                    RoomTypeID = RoomTypeId2,
                    RoomNumber = "201",
                    Status = "Available",
-                   PricePerNight=400
+                   PricePerNight = 400
                },
                new Room
                {
@@ -174,7 +168,7 @@ namespace YB.DataAccess.Context
                    RoomTypeID = RoomTypeId3,
                    RoomNumber = "301",
                    Status = "Available",
-                   PricePerNight=500
+                   PricePerNight = 500
                },
                new Room
                {
@@ -183,7 +177,7 @@ namespace YB.DataAccess.Context
                    RoomTypeID = RoomTypeId4,
                    RoomNumber = "401",
                    Status = "Available",
-                   PricePerNight=600
+                   PricePerNight = 600
                },
                 // Selge Beach Hotel
                 new Room
@@ -297,7 +291,7 @@ namespace YB.DataAccess.Context
                      PricePerNight = 800
                  }
 
-            ); 
+            );
             base.OnModelCreating(modelBuilder);
         }
 

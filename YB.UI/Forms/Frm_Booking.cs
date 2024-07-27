@@ -1,14 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Data;
 using YB.Business.Abstractions;
 using YB.Business.DependicyInjection.AutoFac;
 using YB.Entities.Models;
@@ -392,7 +382,7 @@ namespace YB.UI.Forms
 
                     updateBooking.CheckinDate = DateOnly.FromDateTime(dtpCheckIn.Value);
                     updateBooking.CheckoutDate = DateOnly.FromDateTime(dtpCheckOut.Value);
-                    List<Guest> silinecekguestler=updateBooking.Guests.ToList();
+                    List<Guest> silinecekguestler = updateBooking.Guests.ToList();
                     updateBooking.Guests = guest;
 
 
@@ -402,7 +392,7 @@ namespace YB.UI.Forms
                     updateBooking.TotalPrice = updatebookingroom.PricePerNight * (dtpCheckOut.Value - dtpCheckIn.Value).Days;
 
                     updateBooking.RoomID = updatebookingroom.ID;
-                    bookingService.UpdateBookingWithGuests(updateBooking,silinecekguestler);
+                    bookingService.UpdateBookingWithGuests(updateBooking, silinecekguestler);
 
                     boolupdateBooking = false;
                     grpHotelList.Enabled = true;
@@ -429,11 +419,11 @@ namespace YB.UI.Forms
                 }
                 else
                 {
-                    if (cmbRoom.SelectedIndex==-1)
+                    if (cmbRoom.SelectedIndex == -1)
                     {
                         throw new Exception("Oda seçilmedi! Lütfen uygun bir ode seçiniz. Uygun bir oda yoksa rezervasyon tercihlerinizi değiştiriniz.");
                     }
-                    else if (nmrGuest.Value!=lstGuest.Items.Count)
+                    else if (nmrGuest.Value != lstGuest.Items.Count)
                     {
                         throw new Exception("Misafir listesinedeki misafir sayısı ile belirtilen misafir sayısı eşleşmemektedir!");
                     }
@@ -449,7 +439,7 @@ namespace YB.UI.Forms
                     bookingService.Add(booking);
                     Hotel hotelmis = hotelService.GetByID(bookingroom.HotelID);
 
-                    MessageBox.Show("Hotel Adı:"+hotelmis.Name+"\nRezervasyon Başlangıç:"+booking.CheckinDate+"\nRezervasyon Bitiş:"+booking.CheckoutDate+"\nOda Numarası:"+bookingroom.RoomNumber+"\nToplam Ücret:"+booking.TotalPrice+" TL");
+                    MessageBox.Show("Hotel Adı:" + hotelmis.Name + "\nRezervasyon Başlangıç:" + booking.CheckinDate + "\nRezervasyon Bitiş:" + booking.CheckoutDate + "\nOda Numarası:" + bookingroom.RoomNumber + "\nToplam Ücret:" + booking.TotalPrice + " TL");
 
                     ClearGuestGroup();
                     guest = new List<Guest>();
@@ -516,7 +506,7 @@ namespace YB.UI.Forms
                 boolupdateBooking = true;
 
                 var a = bookingService.GetAllBookingQueryable(updatingID);
-                
+
 
                 updateBooking = a.FirstOrDefault(x => x.ID == updatingID);
 
@@ -525,9 +515,9 @@ namespace YB.UI.Forms
                 dtpCheckIn.Value = DateTime.Parse(updateBooking.CheckinDate.ToString());
                 dtpCheckOut.Value = DateTime.Parse(updateBooking.CheckoutDate.ToString());
 
-               
 
-              
+
+
 
                 maxindex = updateBooking.Guests.Count();
                 nmrGuest.Value = maxindex;
@@ -555,7 +545,7 @@ namespace YB.UI.Forms
                 ClearGuestGroup();
                 btnBookingUpdate.Enabled = false;
                 btnBookingDelete.Enabled = false;
-                if (nmrGuest.Value==lstGuest.Items.Count)
+                if (nmrGuest.Value == lstGuest.Items.Count)
                 {
                     grpMusteri.Enabled = false;
                 }

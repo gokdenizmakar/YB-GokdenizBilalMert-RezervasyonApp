@@ -1,15 +1,9 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using YB.Business.Abstractions;
 using YB.Business.Validator;
 using YB.DataAccess.Abstractions;
-using YB.DataAccess.Repositories.EntityFramework;
 using YB.Entities.Models;
 
 namespace YB.Business.Services
@@ -19,7 +13,7 @@ namespace YB.Business.Services
         private readonly IStaffDal staffdal;
         public StaffService(IStaffDal _staffDal)
         {
-             staffdal = _staffDal;
+            staffdal = _staffDal;
         }
         public void Add(Staff entity)
         {

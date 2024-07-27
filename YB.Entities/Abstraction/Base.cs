@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace YB.Entities.Abstraction
+﻿namespace YB.Entities.Abstraction
 {
-    public abstract class Base:IEntity
+    public abstract class Base : IEntity
     {
         protected Base()
         {
-            ID= Guid.NewGuid();
+            ID = Guid.NewGuid();
             CreatedDate = DateTime.Now;
             IsActive = true;
             IsDeleted = false;
         }
-        public Guid ID { get; set;}
+        public Guid ID { get; set; }
         public DateTime CreatedDate { get; }
         public DateTime UpdatedDate { get; set; }
         public bool IsActive { get; set; }

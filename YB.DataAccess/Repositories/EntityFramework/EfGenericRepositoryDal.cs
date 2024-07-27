@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using YB.DataAccess.Abstractions;
 using YB.DataAccess.Context;
 using YB.Entities.Abstraction;
@@ -17,8 +12,8 @@ namespace YB.DataAccess.Repositories.EntityFramework
         private readonly DbSet<T> dbset;
         public EfGenericRepositoryDal(ApplicationDbContext _context)
         {
-              context = _context;
-              dbset=context.Set<T>();
+            context = _context;
+            dbset = context.Set<T>();
         }
         public void Add(T entity)
         {
@@ -44,7 +39,7 @@ namespace YB.DataAccess.Repositories.EntityFramework
             return dbset.ToList() ?? throw new Exception("Veri bulunamadı!");
         }
 
-        public IQueryable<T> GetAllQueryable(Expression<Func<T, bool>> filter=null)
+        public IQueryable<T> GetAllQueryable(Expression<Func<T, bool>> filter = null)
         {
             return filter == null ? dbset : dbset.Where(filter) ?? throw new Exception("Veri bulunamadı!");
         }

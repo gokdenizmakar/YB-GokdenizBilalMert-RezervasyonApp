@@ -1,17 +1,10 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using YB.Business.Abstractions;
 using YB.Business.Validator;
 using YB.DataAccess.Abstractions;
-using YB.DataAccess.Repositories.EntityFramework;
-using YB.Entities.Abstraction;
 using YB.Entities.Models;
 
 namespace YB.Business.Services
@@ -63,7 +56,7 @@ namespace YB.Business.Services
 
         public void Delete(Guid id)
         {
-            if (id== default(Guid))
+            if (id == default(Guid))
             {
                 throw new Exception("Geçersiz ID!");
             }
@@ -95,7 +88,7 @@ namespace YB.Business.Services
 
         public IQueryable<Booking> GetAllBookingQueryable(Guid bookingid)
         {
-            return bookingdal.GetAllQueryable(x => x.ID == bookingid).Include(x=>x.Guests).Include(x=>x.Room);
+            return bookingdal.GetAllQueryable(x => x.ID == bookingid).Include(x => x.Guests).Include(x => x.Room);
         }
 
 
@@ -130,7 +123,7 @@ namespace YB.Business.Services
 
             else if (roomCapacity22 == null) throw new Exception("Lütfen misafir sayısı giriniz!");
 
-            else if (checkout < checkin || checkin==default(DateOnly) || checkout == default(DateOnly) ) throw new Exception("Lütfen rezervasyon başlangıç tarihini, bitiş tarihinden önce olarak seçiniz!");
+            else if (checkout < checkin || checkin == default(DateOnly) || checkout == default(DateOnly)) throw new Exception("Lütfen rezervasyon başlangıç tarihini, bitiş tarihinden önce olarak seçiniz!");
 
             return bookingdal.GetRoomByVisible(roomCapacity22, checkin, checkout, hotelid) ?? throw new Exception("Geçerli filtrede oda bulunamadı! Lütfen hotel, tarih veya misafir sayısını değiştiriniz!");
         }
@@ -174,7 +167,7 @@ namespace YB.Business.Services
                 }
             });
 
-            bookingdal.UpdateBookingWithGuests(updatedBooking,deleteguestlist);
+            bookingdal.UpdateBookingWithGuests(updatedBooking, deleteguestlist);
         }
     }
 }

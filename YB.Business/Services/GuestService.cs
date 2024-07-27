@@ -1,15 +1,9 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using YB.Business.Abstractions;
 using YB.Business.Validator;
 using YB.DataAccess.Abstractions;
-using YB.DataAccess.Repositories.EntityFramework;
 using YB.Entities.Models;
 
 namespace YB.Business.Services
@@ -21,7 +15,7 @@ namespace YB.Business.Services
         public GuestService(IGuestDal _guestdal)
         {
             guestdal = _guestdal;
-            
+
         }
         public void Add(Guest entity)
         {
@@ -36,7 +30,7 @@ namespace YB.Business.Services
 
         public void Delete(Guid id)
         {
-            if (guestdal.IfEntityExists(g => g.ID ==id))
+            if (guestdal.IfEntityExists(g => g.ID == id))
             {
                 throw new Exception("Silinecek misafir bulunamadı!");
             }
