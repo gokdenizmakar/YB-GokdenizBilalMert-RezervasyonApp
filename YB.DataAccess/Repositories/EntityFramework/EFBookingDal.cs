@@ -88,19 +88,24 @@ namespace YB.DataAccess.Repositories.EntityFramework
         public void UpdateBookingWithGuests(Booking updatedBooking, List<Guest> deleteguestlist)
         {
             var model =context.Bookings.Find(updatedBooking.ID);
+            List<Guest> eklenecekGuestler = updatedBooking.Guests.ToList();
             model.Guests.Clear();
             
-            deleteguestlist.ForEach(x=>context.Guests.Any(y => y.ID == x.ID));
 
-            List<Guest> eklenecekGuestler = updatedBooking.Guests.Select(x=>x).ToList();
-
-
-            eklenecekGuestler.ForEach(x=>context.Guests.Add(x));
+            deleteguestlist.ForEach(x=>context.Guests.Remove(x));
             context.SaveChanges();
 
-            eklenecekGuestler.ForEach(x=>model.Guests.Add(x));
-            context.Update(model);
+            List<Booking> denek2131=new List<Booking>();
+            denek2131.Add(model);
+
+            eklenecekGuestler.ForEach(x => {
+                x.Bookings = denek2131;
+                context.Guests.Add(x); 
+            
+            });
+
             context.SaveChanges();
+
         }
 
 
