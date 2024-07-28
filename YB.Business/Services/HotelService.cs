@@ -34,20 +34,16 @@ namespace YB.Business.Services
             hoteldal.Delete(id);
         }
 
-        public Hotel Get(Expression<Func<Hotel, bool>> filter)
-        {
-            if (filter == null)
-            {
-                throw new Exception("Hotel filtresi boş olamaz!(Get)");
-            }
-            return hoteldal.Get(filter);
-        }
-
         public IEnumerable<Hotel> GetAll()
         {
             return hoteldal.GetAll().Where(x => x.IsActive == true && x.IsDeleted == false);
         }
 
+
+        //Güncellenecek!
+        /*
+            GettAll methodu içine filtre =null at. ısactive gibi özellikler için onu kullan ne gerek var buna.
+         */
         public IQueryable<Hotel> GetAllQueryable(Expression<Func<Hotel, bool>> filter)
         {
             //if (filter == null)
@@ -65,7 +61,7 @@ namespace YB.Business.Services
             {
                 throw new Exception("Null ID değeri!");
             }
-            return hoteldal.GetByID(id);
+            return hoteldal.Get(x=>x.ID==id);
         }
 
         public bool IfEntityExists(Expression<Func<Hotel, bool>> filter)

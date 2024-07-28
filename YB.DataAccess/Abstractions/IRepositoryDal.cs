@@ -8,10 +8,9 @@ namespace YB.DataAccess.Abstractions
         void Add(T entity);
         void Update(T entity);
         void Delete(Guid id);
-        T GetByID(Guid id);
-        IEnumerable<T> GetAll();
+        IEnumerable<T> GetAll(Expression<Func<T,bool>> filter=null);
         T Get(Expression<Func<T, bool>> filter);
-        IQueryable<T> GetAllQueryable(Expression<Func<T, bool>> filter);
+        IQueryable<T> GetAllQueryable(Expression<Func<T, bool>> filter=null);
         bool IfEntityExists(Expression<Func<T, bool>> filter);
 
     }

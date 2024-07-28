@@ -34,27 +34,9 @@ namespace YB.Business.Services
             paymentdal.Delete(id);
         }
 
-        public Payment Get(Expression<Func<Payment, bool>> filter)
-        {
-            if (filter == null)
-            {
-                throw new Exception("Ödeme filtresi boş olamaz!(Get)");
-            }
-            return paymentdal.Get(filter);
-        }
-
         public IEnumerable<Payment> GetAll()
         {
             return paymentdal.GetAll().Where(x => x.IsActive == true && x.IsDeleted == false);
-        }
-
-        public IQueryable<Payment> GetAllQueryable(Expression<Func<Payment, bool>> filter)
-        {
-            if (filter == null)
-            {
-                throw new Exception("Ödeme filtresi boş olamaz!(GetAllQueryable)");
-            }
-            return paymentdal.GetAllQueryable(filter);
         }
 
         public Payment GetByID(Guid id)
@@ -63,7 +45,7 @@ namespace YB.Business.Services
             {
                 throw new Exception("Null ID değeri!");
             }
-            return paymentdal.GetByID(id);
+            return paymentdal.Get(x=>x.ID==id);
         }
 
         public bool IfEntityExists(Expression<Func<Payment, bool>> filter)

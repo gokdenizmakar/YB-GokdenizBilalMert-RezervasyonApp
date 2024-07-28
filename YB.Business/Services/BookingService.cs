@@ -12,10 +12,12 @@ namespace YB.Business.Services
     public class BookingService : IBookingService
     {
         private readonly IBookingDal bookingdal;
+        private IGuestService guestService;
 
-        public BookingService(IBookingDal _bookingdal)
+        public BookingService(IBookingDal _bookingdal, IGuestService _guestService)
         {
             bookingdal = _bookingdal;
+            guestService = _guestService;
         }
         public void Add(Booking entity)
         {
@@ -39,21 +41,6 @@ namespace YB.Business.Services
             bookingdal.Add(entity);
         }
 
-        public void AddBookingWithGuests(Booking booking, List<Guid> guestIds)
-        {
-            BookingValidator bVal = new BookingValidator();
-            ValidationResult result = bVal.Validate(booking);
-            if (!result.IsValid)
-            {
-                throw new Exception(string.Join("\n", result.Errors));
-            }
-            if (guestIds == null)
-            {
-                throw new Exception("Misafir ID'leri boş olamaz!");
-            }
-            bookingdal.AddBookingWithGuests(booking, guestIds);
-        }
-
         public void Delete(Guid id)
         {
             if (id == default(Guid))
@@ -63,49 +50,10 @@ namespace YB.Business.Services
             bookingdal.Delete(id);
         }
 
-        public Booking Get(Expression<Func<Booking, bool>> filter)
-        {
-            if (filter == null)
-            {
-                throw new Exception("Rezervasyon filtresi boş olamaz!(Get)");
-            }
-            return bookingdal.Get(filter);
-        }
 
         public IEnumerable<Booking> GetAll()
         {
             return bookingdal.GetAll().Where(x => x.IsActive == true && x.IsDeleted == false);
-        }
-
-        public IEnumerable<object> GetAllBookingAllDetail()
-        {
-            return bookingdal.GetAllBookingAllDetail() ?? throw new Exception("Kayıtlı rezervasyon bulunamadı!");
-        }
-
-
-
-
-
-        public IQueryable<Booking> GetAllBookingQueryable(Guid bookingid)
-        {
-            return bookingdal.GetAllQueryable(x => x.ID == bookingid).Include(x => x.Guests).Include(x => x.Room);
-        }
-
-
-
-
-
-
-
-
-
-        public IQueryable<Booking> GetAllQueryable(Expression<Func<Booking, bool>> filter)
-        {
-            if (filter == null)
-            {
-                throw new Exception("Rezervasyon filtresi boş olamaz!(GetAllQueryable)");
-            }
-            return bookingdal.GetAllQueryable(filter);
         }
 
         public Booking GetByID(Guid id)
@@ -114,20 +62,8 @@ namespace YB.Business.Services
             {
                 throw new Exception("Null ID değeri!");
             }
-            return bookingdal.GetByID(id);
+            return bookingdal.Get(x => x.ID == id);
         }
-
-        public IEnumerable<object> GetRoomByVisible(byte roomCapacity22, DateOnly checkin, DateOnly checkout, Guid hotelid)
-        {
-            if (hotelid == null) throw new Exception("Lütfen Hotel seçiniz!");
-
-            else if (roomCapacity22 == null) throw new Exception("Lütfen misafir sayısı giriniz!");
-
-            else if (checkout < checkin || checkin == default(DateOnly) || checkout == default(DateOnly)) throw new Exception("Lütfen rezervasyon başlangıç tarihini, bitiş tarihinden önce olarak seçiniz!");
-
-            return bookingdal.GetRoomByVisible(roomCapacity22, checkin, checkout, hotelid) ?? throw new Exception("Geçerli filtrede oda bulunamadı! Lütfen hotel, tarih veya misafir sayısını değiştiriniz!");
-        }
-
         public bool IfEntityExists(Expression<Func<Booking, bool>> filter)
         {
             if (filter == null)
@@ -149,6 +85,32 @@ namespace YB.Business.Services
             bookingdal.Update(entity);
         }
 
+        public IEnumerable<object> GetAllBookingAllDetail()
+        {
+            return bookingdal.GetAllBookingAllDetail() ?? throw new Exception("Kayıtlı rezervasyon bulunamadı!");
+        }
+
+
+
+
+
+        public IQueryable<Booking> GetAllBookingQueryable(Guid bookingid)
+        {
+            return bookingdal.GetAllQueryable(x => x.ID == bookingid).Include(x => x.Guests).Include(x => x.Room);
+        }
+
+        public IEnumerable<object> GetRoomByVisible(byte roomCapacity22, DateOnly checkin, DateOnly checkout, Guid hotelid)
+        {
+            if (hotelid == null) throw new Exception("Lütfen Hotel seçiniz!");
+
+            else if (roomCapacity22 == null) throw new Exception("Lütfen misafir sayısı giriniz!");
+
+            else if (checkout < checkin || checkin == default(DateOnly) || checkout == default(DateOnly)) throw new Exception("Lütfen rezervasyon başlangıç tarihini, bitiş tarihinden önce olarak seçiniz!");
+
+            return bookingdal.GetRoomByVisible(roomCapacity22, checkin, checkout, hotelid) ?? throw new Exception("Geçerli filtrede oda bulunamadı! Lütfen hotel, tarih veya misafir sayısını değiştiriniz!");
+        }
+
+
         public void UpdateBookingWithGuests(Booking updatedBooking, List<Guest> deleteguestlist)
         {
             BookingValidator bVal = new BookingValidator();
@@ -166,6 +128,47 @@ namespace YB.Business.Services
                     throw new Exception(string.Join("\n", result.Errors));
                 }
             });
+
+            //var model = bookingdal.Get(x => x.ID == updatedBooking.ID);
+            //List<Guest> eklenecekGuestler = updatedBooking.Guests.ToList();
+
+            ////model.Guests.Contains(x=>deleteguestlist.ForEach(y=>y.ID)) Clear();
+
+            //foreach (var item in deleteguestlist)
+            //{
+            //    if (!eklenecekGuestler.Contains(item))
+            //    {
+            //        guestService.Delete(item.ID);
+            //        deleteguestlist.Remove(item);
+            //    }
+            //    else
+            //    {
+            //        Guest upGuest = eklenecekGuestler.FirstOrDefault(x => x.ID == item.ID);
+
+            //        GuestValidator gVal = new GuestValidator();
+            //        ValidationResult upresult = gVal.Validate(upGuest);
+            //        if (!upresult.IsValid)
+            //        {
+            //            throw new Exception(string.Join("\n", result.Errors));
+            //        }
+
+            //        upGuest.TC = item.TC;
+            //        upGuest.Address = item.Address;
+            //        upGuest.FirstName = item.FirstName;
+            //        upGuest.LastName = item.LastName;
+            //        upGuest.DateOfBirth = item.DateOfBirth;
+            //        upGuest.Email = item.Email;
+            //        upGuest.Bookings.Clear();
+
+            //        upGuest.Bookings.Add(updatedBooking);
+            //        guestService.Update(upGuest);
+            //    }
+            //}
+            //List<Booking> denek2131 = new List<Booking>();
+            //denek2131.Add(model);
+
+
+            deleteguestlist.ForEach(x => guestService.Delete(x.ID));
 
             bookingdal.UpdateBookingWithGuests(updatedBooking, deleteguestlist);
         }

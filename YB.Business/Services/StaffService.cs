@@ -35,28 +35,11 @@ namespace YB.Business.Services
             staffdal.Delete(id);
         }
 
-        public Staff Get(Expression<Func<Staff, bool>> filter)
-        {
-            if (filter == null)
-            {
-                throw new Exception("Personel filtresi boş olamaz!(Get)");
-            }
-            return staffdal.Get(filter);
-        }
-
         public IEnumerable<Staff> GetAll()
         {
             return staffdal.GetAll().Where(x => x.IsActive == true && x.IsDeleted == false);
         }
 
-        public IQueryable<Staff> GetAllQueryable(Expression<Func<Staff, bool>> filter)
-        {
-            if (filter == null)
-            {
-                throw new Exception("Personel filtresi boş olamaz!(GetAllQueryable)");
-            }
-            return staffdal.GetAllQueryable(filter);
-        }
 
         public Staff GetByID(Guid id)
         {
@@ -64,7 +47,7 @@ namespace YB.Business.Services
             {
                 throw new Exception("Null ID değeri!");
             }
-            return staffdal.GetByID(id);
+            return staffdal.Get(x=>x.ID==id);
         }
 
         public bool IfEntityExists(Expression<Func<Staff, bool>> filter)

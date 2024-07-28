@@ -28,20 +28,6 @@ namespace YB.DataAccess.Context
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Booking>()
-                .HasKey(b => b.ID);
-            modelBuilder.Entity<Guest>()
-                .HasKey(b => b.ID);
-            modelBuilder.Entity<Hotel>()
-                .HasKey(b => b.ID);
-            modelBuilder.Entity<Staff>()
-                .HasKey(b => b.ID);
-            modelBuilder.Entity<RoomType>()
-                .HasKey(b => b.ID);
-            modelBuilder.Entity<Room>()
-                .HasKey(b => b.ID);
-            modelBuilder.Entity<Payment>()
-                .HasKey(b => b.ID);
 
             modelBuilder.Entity<Guest>().Ignore(x => x.FullName);
 

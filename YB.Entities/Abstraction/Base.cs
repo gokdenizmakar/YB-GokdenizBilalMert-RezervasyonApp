@@ -10,7 +10,7 @@
             IsDeleted = false;
         }
         public Guid ID { get; set; }
-        public DateTime CreatedDate { get; }
+        public DateTime CreatedDate { get; private set; }
         public DateTime UpdatedDate { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }

@@ -37,35 +37,11 @@ namespace YB.Business.Services
             roomTypeDal.Delete(id);
         }
 
-        public RoomType Get(Expression<Func<RoomType, bool>> filter)
-        {
-            if (filter == null)
-            {
-                throw new Exception("Oda tipi filtresi boş olamaz!(Get)");
-            }
-            return roomTypeDal.Get(filter);
-        }
-
         public IEnumerable<RoomType> GetAll()
         {
             return roomTypeDal.GetAll().Where(x => x.IsActive == true && x.IsDeleted == false);
         }
 
-        public IQueryable<RoomType> GetAllQueryable(Expression<Func<RoomType, bool>> filter)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<Object> GetAllRoomTypeWithHotel(Guid hotelid)
-        {
-            return roomTypeDal.GetAllQueryable(x => x.ID != null).Include(x => x.Rooms).ThenInclude(x => x.Hotel).SelectMany(rt => rt.Rooms.Select(room => new
-            {
-                ID = rt.ID,
-                Name = rt.Name,
-                RoomID = room.ID,
-                HotelID = room.Hotel.ID
-            })).Where(x => x.HotelID == hotelid);
-        }
 
         public RoomType GetByID(Guid id)
         {
@@ -73,7 +49,7 @@ namespace YB.Business.Services
             {
                 throw new Exception("Null ID değeri!");
             }
-            return roomTypeDal.GetByID(id);
+            return roomTypeDal.Get(x=>x.ID == id);
         }
 
         public bool IfEntityExists(Expression<Func<RoomType, bool>> filter)
@@ -95,6 +71,18 @@ namespace YB.Business.Services
             }
 
             roomTypeDal.Update(entity);
+        }
+
+        //Değiştirilecek...
+        public IEnumerable<Object> GetAllRoomTypeWithHotel(Guid hotelid)
+        {
+            return roomTypeDal.GetAllQueryable(x => x.ID != null).Include(x => x.Rooms).ThenInclude(x => x.Hotel).SelectMany(rt => rt.Rooms.Select(room => new
+            {
+                ID = rt.ID,
+                Name = rt.Name,
+                RoomID = room.ID,
+                HotelID = room.Hotel.ID
+            })).Where(x => x.HotelID == hotelid);
         }
     }
 }

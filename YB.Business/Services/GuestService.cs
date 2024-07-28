@@ -37,28 +37,11 @@ namespace YB.Business.Services
             guestdal.Delete(id);
         }
 
-        public Guest Get(Expression<Func<Guest, bool>> filter)
-        {
-            if (filter == null)
-            {
-                throw new Exception("Misafir filtresi boş olamaz! (Get)");
-            }
-            return guestdal.Get(filter);
-        }
-
         public IEnumerable<Guest> GetAll()
         {
             return guestdal.GetAll().Where(x => x.IsActive == true && x.IsDeleted == false);
         }
 
-        public IQueryable<Guest> GetAllQueryable(Expression<Func<Guest, bool>> filter)
-        {
-            if (filter == null)
-            {
-                throw new Exception("Misafir filtresi boş olamaz!(GetAllQueryable)");
-            }
-            return guestdal.GetAllQueryable(filter);
-        }
 
         public Guest GetByID(Guid id)
         {
@@ -66,7 +49,7 @@ namespace YB.Business.Services
             {
                 throw new Exception("Null ID değeri!");
             }
-            return guestdal.GetByID(id);
+            return guestdal.Get(x=>x.ID==id);
         }
 
         public bool IfEntityExists(Expression<Func<Guest, bool>> filter)

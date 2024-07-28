@@ -35,28 +35,11 @@ namespace YB.Business.Services
             roomDal.Delete(id);
         }
 
-        public Room Get(Expression<Func<Room, bool>> filter)
-        {
-            if (filter == null)
-            {
-                throw new Exception("Oda filtresi boş olamaz!(Get)");
-            }
-            return roomDal.Get(filter);
-        }
-
         public IEnumerable<Room> GetAll()
         {
             return roomDal.GetAll().Where(x => x.IsActive == true && x.IsDeleted == false);
         }
 
-        public IQueryable<Room> GetAllQueryable(Expression<Func<Room, bool>> filter)
-        {
-            if (filter == null)
-            {
-                throw new Exception("Oda filtresi boş olamaz!(GetAllQueryable)");
-            }
-            return roomDal.GetAllQueryable(filter);
-        }
 
         public Room GetByID(Guid id)
         {
@@ -64,7 +47,7 @@ namespace YB.Business.Services
             {
                 throw new Exception("Null ID değeri!");
             }
-            return roomDal.GetByID(id);
+            return roomDal.Get(x=>x.ID==id);
         }
 
         public bool IfEntityExists(Expression<Func<Room, bool>> filter)

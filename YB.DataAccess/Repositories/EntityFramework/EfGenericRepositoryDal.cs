@@ -23,7 +23,7 @@ namespace YB.DataAccess.Repositories.EntityFramework
 
         public void Delete(Guid id)
         {
-            var entity = GetByID(id);
+            var entity = Get(x=>x.ID == id);
             entity.IsDeleted = true;
             entity.IsActive = false;
             Update(entity);
@@ -34,9 +34,9 @@ namespace YB.DataAccess.Repositories.EntityFramework
             return dbset.FirstOrDefault(filter) ?? throw new Exception("Veri bulunamadı!");
         }
 
-        public IEnumerable<T> GetAll()
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>> filter=null)
         {
-            return dbset.ToList() ?? throw new Exception("Veri bulunamadı!");
+            return dbset.Where(filter).ToList() ?? throw new Exception("Veri bulunamadı!");
         }
 
         public IQueryable<T> GetAllQueryable(Expression<Func<T, bool>> filter = null)

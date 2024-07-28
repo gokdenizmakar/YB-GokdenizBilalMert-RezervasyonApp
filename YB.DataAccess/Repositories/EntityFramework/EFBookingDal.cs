@@ -85,16 +85,20 @@ namespace YB.DataAccess.Repositories.EntityFramework
                 .ToList() ?? throw new Exception("Uygun oda bulunamadı!");
         }
 
+            // Service katmanına taşı:
         public void UpdateBookingWithGuests(Booking updatedBooking, List<Guest> deleteguestlist)
         {
+            //Taşınanlar:
             var model =context.Bookings.Find(updatedBooking.ID);
             List<Guest> eklenecekGuestler = updatedBooking.Guests.ToList();
             model.Guests.Clear();
-            
 
+
+            //silmek yerine yeni guestlistte olanları güncelledim.
             deleteguestlist.ForEach(x=>context.Guests.Remove(x));
             context.SaveChanges();
-
+            //Taşınacaklar:
+            
             List<Booking> denek2131=new List<Booking>();
             denek2131.Add(model);
 

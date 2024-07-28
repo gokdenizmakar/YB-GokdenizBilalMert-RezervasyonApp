@@ -10,8 +10,6 @@ namespace YB.Business.Abstractions
         void Delete(Guid id);
         T GetByID(Guid id);
         IEnumerable<T> GetAll();
-        T Get(Expression<Func<T, bool>> filter);
-        IQueryable<T> GetAllQueryable(Expression<Func<T, bool>> filter);
         bool IfEntityExists(Expression<Func<T, bool>> filter);
     }
 }
